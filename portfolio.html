@@ -1,0 +1,4207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>SUMIT.EXE — Sumit Chavda</title>
+<meta name="description" content="SUMIT.EXE — The digital royal chamber of Sumit Chavda. Developer, AI Builder and Creative Technologist. Projects, laboratory experiments, certificates and resume." />
+<meta name="theme-color" content="#07080a" />
+<meta property="og:title" content="SUMIT.EXE — Sumit Chavda" />
+<meta property="og:description" content="Developer • AI Builder • Creative Technologist. I don't just build projects. I build digital experiences." />
+<meta property="og:type" content="website" />
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' fill='%2307080a'/><text x='16' y='22' font-size='16' font-family='Georgia' text-anchor='middle' fill='%23c8a45c'>S</text></svg>" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+/* ============================================================
+   SUMIT.EXE — DESIGN TOKENS
+   ============================================================ */
+:root{
+  --obsidian:#07080a;
+  --charcoal:#0c0e12;
+  --surface:#11141a;
+  --surface-2:#161a21;
+  --surface-3:#1c212a;
+  --line:rgba(200,164,92,.16);
+  --line-strong:rgba(200,164,92,.34);
+  --line-soft:rgba(255,255,255,.055);
+  --gold:#c8a45c;
+  --gold-2:#e8d7ab;
+  --gold-deep:#7d6530;
+  --ink:#f2efe8;
+  --ink-2:#cdc8bc;
+  --muted:#8b8779;
+  --muted-2:#5c5952;
+  --danger:#b4544a;
+  --ok:#6f9e6a;
+  --serif:'Cormorant Garamond',Georgia,serif;
+  --sans:'Inter',system-ui,-apple-system,sans-serif;
+  --mono:'JetBrains Mono',ui-monospace,monospace;
+  --r:2px;
+  --max:1280px;
+  --ease:cubic-bezier(.22,.61,.36,1);
+}
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;background:var(--obsidian);color:var(--ink);
+  font-family:var(--sans);font-size:16px;line-height:1.65;
+  -webkit-font-smoothing:antialiased;overflow-x:hidden;
+}
+body.locked{overflow:hidden}
+img{max-width:100%;display:block}
+a{color:inherit;text-decoration:none}
+button,input,textarea,select{font:inherit;color:inherit}
+button{background:none;border:0;cursor:pointer}
+::selection{background:rgba(200,164,92,.28);color:#fff}
+::-webkit-scrollbar{width:9px;height:9px}
+::-webkit-scrollbar-track{background:var(--obsidian)}
+::-webkit-scrollbar-thumb{background:#22262e;border:2px solid var(--obsidian);border-radius:9px}
+::-webkit-scrollbar-thumb:hover{background:var(--gold-deep)}
+
+/* ============================================================
+   AMBIENT LAYER
+   ============================================================ */
+#ambient{position:fixed;inset:0;pointer-events:none;z-index:0}
+#particles{position:absolute;inset:0;opacity:.55}
+.grid-layer{
+  position:absolute;inset:0;
+  background-image:
+    linear-gradient(to right, rgba(200,164,92,.045) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(200,164,92,.045) 1px, transparent 1px);
+  background-size:88px 88px;
+  mask-image:radial-gradient(ellipse 90% 65% at 50% 30%, #000 20%, transparent 78%);
+  -webkit-mask-image:radial-gradient(ellipse 90% 65% at 50% 30%, #000 20%, transparent 78%);
+}
+.noise{
+  position:absolute;inset:0;opacity:.035;mix-blend-mode:overlay;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+.vignette{
+  position:absolute;inset:0;
+  background:radial-gradient(ellipse 70% 55% at 50% 8%, rgba(200,164,92,.07), transparent 62%),
+             radial-gradient(ellipse 100% 70% at 50% 110%, rgba(200,164,92,.05), transparent 60%);
+}
+#cursor-glow{
+  position:fixed;width:520px;height:520px;border-radius:50%;pointer-events:none;z-index:1;
+  background:radial-gradient(circle, rgba(200,164,92,.075), transparent 62%);
+  transform:translate(-50%,-50%);opacity:0;transition:opacity .5s;mix-blend-mode:screen;
+}
+
+/* ============================================================
+   INTRO SEQUENCE
+   ============================================================ */
+#intro{
+  position:fixed;inset:0;z-index:9000;background:#040507;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  gap:34px;transition:opacity .9s var(--ease), visibility .9s;
+}
+#intro.done{opacity:0;visibility:hidden}
+.emblem{width:118px;height:118px;opacity:0;animation:emblemIn 1.4s var(--ease) forwards}
+@keyframes emblemIn{from{opacity:0;transform:scale(.86) rotate(-8deg)}to{opacity:1;transform:scale(1) rotate(0)}}
+.emblem svg{width:100%;height:100%}
+.emblem .ring{stroke-dasharray:6 10;transform-origin:60px 60px;animation:spin 22s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.intro-title{
+  font-family:var(--serif);font-size:clamp(30px,6vw,54px);letter-spacing:.34em;
+  color:var(--ink);opacity:0;padding-left:.34em;font-weight:400;
+  animation:fadeUp .9s var(--ease) .5s forwards;
+}
+.intro-log{
+  font-family:var(--mono);font-size:12.5px;letter-spacing:.1em;color:var(--muted);
+  min-height:120px;text-align:left;width:min(380px,82vw);
+}
+.intro-log div{opacity:0;transform:translateY(6px);transition:opacity .35s,transform .35s;margin-bottom:7px}
+.intro-log div.on{opacity:1;transform:none}
+.intro-log .ok{color:var(--gold);letter-spacing:.24em}
+@keyframes fadeUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+.intro-skip{
+  position:absolute;bottom:38px;right:38px;font-family:var(--mono);font-size:11px;
+  letter-spacing:.22em;color:var(--muted-2);border:1px solid var(--line-soft);
+  padding:9px 18px;transition:.3s;
+}
+.intro-skip:hover{color:var(--gold);border-color:var(--line-strong)}
+.intro-bar{position:absolute;bottom:0;left:0;height:1px;background:linear-gradient(90deg,transparent,var(--gold),transparent);width:0;animation:bar 3.2s var(--ease) forwards}
+@keyframes bar{to{width:100%}}
+
+/* ============================================================
+   SHELL / NAV
+   ============================================================ */
+.shell{position:relative;z-index:2}
+.container{width:100%;max-width:var(--max);margin:0 auto;padding:0 32px}
+header.nav{
+  position:fixed;top:0;left:0;right:0;z-index:800;
+  transition:background .45s var(--ease), border-color .45s, backdrop-filter .45s;
+  border-bottom:1px solid transparent;
+}
+header.nav.solid{
+  background:rgba(7,8,10,.82);backdrop-filter:blur(18px) saturate(140%);
+  border-bottom-color:var(--line-soft);
+}
+.nav-inner{display:flex;align-items:center;justify-content:space-between;height:76px}
+.brand{display:flex;align-items:center;gap:13px}
+.brand-mark{width:30px;height:30px;flex:none}
+.brand-name{font-family:var(--serif);font-size:19px;letter-spacing:.2em;color:var(--ink)}
+.brand-name b{color:var(--gold);font-weight:500}
+.nav-links{display:flex;gap:4px;align-items:center}
+.nav-links a{
+  font-size:11.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);
+  padding:9px 13px;position:relative;transition:color .3s;
+}
+.nav-links a::after{
+  content:'';position:absolute;left:13px;right:13px;bottom:4px;height:1px;
+  background:var(--gold);transform:scaleX(0);transform-origin:left;transition:transform .4s var(--ease);
+}
+.nav-links a:hover{color:var(--ink-2)}
+.nav-links a:hover::after,.nav-links a.active::after{transform:scaleX(1)}
+.nav-links a.active{color:var(--gold-2)}
+.nav-actions{display:flex;gap:10px;align-items:center}
+.burger{display:none;width:42px;height:42px;border:1px solid var(--line-soft);align-items:center;justify-content:center;flex-direction:column;gap:5px}
+.burger span{width:17px;height:1px;background:var(--ink-2);transition:.3s}
+.burger.open span:nth-child(1){transform:translateY(6px) rotate(45deg)}
+.burger.open span:nth-child(2){opacity:0}
+.burger.open span:nth-child(3){transform:translateY(-6px) rotate(-45deg)}
+.mobile-menu{
+  position:fixed;inset:76px 0 0;background:rgba(7,8,10,.97);backdrop-filter:blur(20px);
+  z-index:799;display:flex;flex-direction:column;padding:34px 32px;gap:6px;
+  transform:translateY(-12px);opacity:0;pointer-events:none;transition:.4s var(--ease);
+}
+.mobile-menu.open{transform:none;opacity:1;pointer-events:auto}
+.mobile-menu a{
+  font-family:var(--serif);font-size:26px;color:var(--ink-2);padding:12px 0;
+  border-bottom:1px solid var(--line-soft);
+}
+.mobile-menu a small{font-family:var(--mono);font-size:10px;color:var(--gold-deep);margin-right:14px;letter-spacing:.1em}
+
+/* ============================================================
+   BUTTONS
+   ============================================================ */
+.btn{
+  display:inline-flex;align-items:center;gap:11px;padding:15px 30px;
+  font-size:11.5px;letter-spacing:.2em;text-transform:uppercase;font-weight:500;
+  border:1px solid var(--line-strong);position:relative;overflow:hidden;
+  transition:color .4s var(--ease), border-color .4s;background:transparent;color:var(--ink-2);
+}
+.btn span{position:relative;z-index:2}
+.btn::before{
+  content:'';position:absolute;inset:0;background:linear-gradient(100deg,var(--gold-deep),var(--gold),var(--gold-2));
+  transform:translateY(101%);transition:transform .5s var(--ease);z-index:1;
+}
+.btn:hover{color:#0a0a0a;border-color:var(--gold-2)}
+.btn:hover::before{transform:translateY(0)}
+.btn.ghost{border-color:var(--line-soft);color:var(--muted)}
+.btn.ghost:hover{color:var(--gold-2);border-color:var(--line-strong)}
+.btn.ghost::before{display:none}
+.btn.solid::before{transform:translateY(0)}
+.btn.solid{color:#0a0a0a;border-color:var(--gold)}
+.btn.solid:hover{filter:brightness(1.08)}
+.btn.sm{padding:10px 18px;font-size:10px}
+.btn.danger{border-color:rgba(180,84,74,.4);color:#d18b83}
+.btn.danger:hover{color:#fff;border-color:var(--danger)}
+.btn.danger::before{background:var(--danger)}
+.btn[disabled]{opacity:.45;pointer-events:none}
+
+/* ============================================================
+   SECTIONS
+   ============================================================ */
+section.block{padding:130px 0;position:relative}
+section.block::before{
+  content:'';position:absolute;top:0;left:50%;transform:translateX(-50%);
+  width:min(var(--max),calc(100% - 64px));height:1px;
+  background:linear-gradient(90deg,transparent,var(--line-soft) 15%,var(--line-soft) 85%,transparent);
+}
+.sec-head{margin-bottom:64px}
+.sec-index{
+  font-family:var(--mono);font-size:11px;letter-spacing:.32em;color:var(--gold-deep);
+  display:flex;align-items:center;gap:16px;margin-bottom:22px;
+}
+.sec-index::after{content:'';height:1px;flex:1;max-width:110px;background:linear-gradient(90deg,var(--line-strong),transparent)}
+.sec-title{
+  font-family:var(--serif);font-weight:400;font-size:clamp(32px,5.2vw,54px);
+  line-height:1.08;letter-spacing:.02em;margin:0 0 18px;
+}
+.sec-title em{font-style:italic;color:var(--gold)}
+.sec-sub{color:var(--muted);max-width:620px;font-size:15px;font-weight:300}
+.eyebrow{font-family:var(--mono);font-size:10.5px;letter-spacing:.3em;color:var(--gold);text-transform:uppercase}
+
+/* ============================================================
+   HERO
+   ============================================================ */
+#hero{min-height:100vh;display:flex;align-items:center;padding:150px 0 90px;position:relative;overflow:hidden}
+.hero-grid{display:grid;grid-template-columns:1.25fr .85fr;gap:70px;align-items:center;width:100%}
+.hero-tag{
+  display:inline-flex;align-items:center;gap:11px;font-family:var(--mono);font-size:10.5px;
+  letter-spacing:.24em;color:var(--gold);border:1px solid var(--line);padding:8px 16px;margin-bottom:30px;
+}
+.pulse{width:5px;height:5px;border-radius:50%;background:var(--gold);box-shadow:0 0 0 0 rgba(200,164,92,.6);animation:pulse 2.4s infinite}
+@keyframes pulse{70%{box-shadow:0 0 0 9px rgba(200,164,92,0)}100%{box-shadow:0 0 0 0 rgba(200,164,92,0)}}
+.hero-name{
+  font-family:var(--serif);font-weight:400;line-height:.95;margin:0 0 24px;
+  font-size:clamp(52px,10vw,124px);letter-spacing:.02em;
+}
+.hero-name .ch{display:inline-block;opacity:0;transform:translateY(48px) rotateX(-60deg);animation:charIn .9s var(--ease) forwards}
+@keyframes charIn{to{opacity:1;transform:none}}
+.hero-name .dot{color:var(--gold)}
+.hero-roles{
+  display:flex;flex-wrap:wrap;gap:10px 0;align-items:center;font-family:var(--mono);
+  font-size:11.5px;letter-spacing:.22em;color:var(--muted);margin-bottom:34px;
+}
+.hero-roles i{width:4px;height:4px;background:var(--gold-deep);border-radius:50%;margin:0 16px;font-style:normal}
+.hero-statement{
+  font-family:var(--serif);font-size:clamp(20px,2.4vw,29px);line-height:1.5;
+  color:var(--ink-2);max-width:600px;margin:0 0 24px;font-weight:300;
+}
+.hero-statement b{color:var(--gold-2);font-weight:500}
+.hero-intro{color:var(--muted);max-width:540px;font-size:15px;font-weight:300;margin-bottom:42px}
+.hero-cta{display:flex;gap:14px;flex-wrap:wrap;margin-bottom:54px}
+.hero-meta{display:flex;gap:44px;flex-wrap:wrap;padding-top:30px;border-top:1px solid var(--line-soft)}
+.hero-meta div{font-size:12px}
+.hero-meta dt{font-family:var(--mono);font-size:9.5px;letter-spacing:.22em;color:var(--muted-2);margin-bottom:7px}
+.hero-meta dd{margin:0;color:var(--ink-2)}
+.portrait-wrap{position:relative;display:flex;justify-content:center}
+.portrait-frame{
+  position:relative;width:100%;max-width:390px;aspect-ratio:4/5;
+  border:1px solid var(--line);background:linear-gradient(160deg,var(--surface),var(--charcoal));
+  overflow:hidden;
+}
+.portrait-frame::after{
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(180deg,transparent 45%,rgba(7,8,10,.82));
+}
+.portrait-frame img{width:100%;height:100%;object-fit:cover;filter:contrast(1.05) saturate(.92)}
+.portrait-corner{position:absolute;width:26px;height:26px;border:1px solid var(--gold);z-index:3}
+.pc-tl{top:-1px;left:-1px;border-right:0;border-bottom:0}
+.pc-tr{top:-1px;right:-1px;border-left:0;border-bottom:0}
+.pc-bl{bottom:-1px;left:-1px;border-right:0;border-top:0}
+.pc-br{bottom:-1px;right:-1px;border-left:0;border-top:0}
+.portrait-badge{
+  position:absolute;bottom:22px;left:22px;right:22px;z-index:4;
+  display:flex;justify-content:space-between;align-items:flex-end;gap:12px;
+}
+.portrait-badge .nm{font-family:var(--serif);font-size:20px;letter-spacing:.06em}
+.portrait-badge .rl{font-family:var(--mono);font-size:9px;letter-spacing:.2em;color:var(--gold);text-align:right}
+.portrait-aura{
+  position:absolute;inset:-60px;background:radial-gradient(circle at 50% 40%,rgba(200,164,92,.13),transparent 62%);
+  z-index:-1;filter:blur(20px);
+}
+.scroll-cue{
+  position:absolute;bottom:34px;left:50%;transform:translateX(-50%);
+  font-family:var(--mono);font-size:9.5px;letter-spacing:.3em;color:var(--muted-2);
+  display:flex;flex-direction:column;align-items:center;gap:12px;
+}
+.scroll-cue i{display:block;width:1px;height:44px;background:linear-gradient(180deg,var(--gold),transparent);animation:cue 2.6s var(--ease) infinite}
+@keyframes cue{0%{transform:scaleY(0);transform-origin:top}45%{transform:scaleY(1);transform-origin:top}55%{transform:scaleY(1);transform-origin:bottom}100%{transform:scaleY(0);transform-origin:bottom}}
+
+/* ============================================================
+   IDENTITY
+   ============================================================ */
+.identity-grid{display:grid;grid-template-columns:.8fr 1.2fr;gap:60px;align-items:start}
+.id-card{
+  border:1px solid var(--line);background:linear-gradient(165deg,var(--surface),var(--charcoal));
+  padding:30px;position:relative;
+}
+.id-photo{aspect-ratio:1;border:1px solid var(--line-soft);overflow:hidden;margin-bottom:24px;background:var(--charcoal)}
+.id-photo img{width:100%;height:100%;object-fit:cover}
+.id-name{font-family:var(--serif);font-size:27px;margin:0 0 5px;letter-spacing:.03em}
+.id-role{font-family:var(--mono);font-size:10px;letter-spacing:.22em;color:var(--gold);margin-bottom:20px}
+.id-rows{display:grid;gap:1px;background:var(--line-soft);border:1px solid var(--line-soft)}
+.id-row{display:flex;justify-content:space-between;gap:16px;padding:12px 14px;background:var(--charcoal);font-size:12.5px}
+.id-row dt{font-family:var(--mono);font-size:9.5px;letter-spacing:.16em;color:var(--muted-2);text-transform:uppercase;padding-top:2px}
+.id-row dd{margin:0;color:var(--ink-2);text-align:right}
+.status-dot{display:inline-flex;align-items:center;gap:7px}
+.status-dot::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--ok);box-shadow:0 0 8px rgba(111,158,106,.7)}
+.identity-body p{color:var(--ink-2);font-weight:300;margin:0 0 20px;font-size:15.5px}
+.identity-body p.lead{font-family:var(--serif);font-size:clamp(19px,2.2vw,25px);line-height:1.55;color:var(--ink)}
+.identity-body p.lead::first-letter{
+  font-family:var(--serif);font-size:3.2em;float:left;line-height:.82;
+  padding:6px 12px 0 0;color:var(--gold);
+}
+.focus-box{
+  margin-top:34px;border-left:2px solid var(--gold);padding:20px 0 20px 24px;
+  background:linear-gradient(90deg,rgba(200,164,92,.05),transparent 70%);
+}
+.focus-box h4{font-family:var(--mono);font-size:10px;letter-spacing:.26em;color:var(--gold);margin:0 0 10px;font-weight:400}
+.focus-box p{margin:0;color:var(--ink-2);font-size:14.5px}
+.philosophy{
+  margin-top:30px;font-family:var(--serif);font-style:italic;font-size:19px;
+  color:var(--muted);line-height:1.6;
+}
+
+/* ============================================================
+   CRAFT / SKILLS
+   ============================================================ */
+.filter-row{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:44px}
+.chip{
+  font-family:var(--mono);font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;
+  padding:9px 17px;border:1px solid var(--line-soft);color:var(--muted);transition:.3s;background:transparent;
+}
+.chip:hover{color:var(--ink-2);border-color:var(--line)}
+.chip.active{color:#0a0a0a;background:var(--gold);border-color:var(--gold)}
+.arsenal{display:grid;grid-template-columns:repeat(auto-fill,minmax(258px,1fr));gap:1px;background:var(--line-soft);border:1px solid var(--line-soft)}
+.skill{
+  background:var(--charcoal);padding:26px 24px;position:relative;overflow:hidden;
+  transition:background .45s var(--ease);cursor:pointer;
+}
+.skill::before{
+  content:'';position:absolute;left:0;top:0;bottom:0;width:2px;background:var(--gold);
+  transform:scaleY(0);transform-origin:top;transition:transform .5s var(--ease);
+}
+.skill:hover{background:var(--surface-2)}
+.skill:hover::before{transform:scaleY(1)}
+.skill-top{display:flex;align-items:flex-start;justify-content:space-between;gap:14px;margin-bottom:16px}
+.skill-ic{color:var(--gold);opacity:.85;width:22px;height:22px;flex:none}
+.skill-cat{font-family:var(--mono);font-size:9px;letter-spacing:.16em;color:var(--muted-2);text-transform:uppercase}
+.skill-name{font-family:var(--serif);font-size:21px;margin:0 0 9px;letter-spacing:.02em}
+.skill-desc{font-size:13px;color:var(--muted);margin:0;font-weight:300;line-height:1.6}
+.skill-level{margin-top:18px;display:flex;align-items:center;gap:12px}
+.skill-bar{flex:1;height:1px;background:var(--line-soft);position:relative;overflow:hidden}
+.skill-bar i{position:absolute;inset:0;background:linear-gradient(90deg,var(--gold-deep),var(--gold));transform-origin:left;transform:scaleX(0);transition:transform 1s var(--ease)}
+.skill-bar i.go{transform:scaleX(var(--lvl))}
+.skill-level span{font-family:var(--mono);font-size:9.5px;color:var(--gold-deep);letter-spacing:.1em}
+
+/* ============================================================
+   WORKS
+   ============================================================ */
+.works-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:26px}
+.work{
+  border:1px solid var(--line-soft);background:var(--charcoal);position:relative;
+  overflow:hidden;cursor:pointer;transition:border-color .5s var(--ease),transform .5s var(--ease);
+  display:flex;flex-direction:column;
+}
+.work:hover{border-color:var(--line-strong)}
+.work.featured{grid-column:span 2}
+.work-media{position:relative;aspect-ratio:16/10;overflow:hidden;background:var(--surface);flex:none}
+.work.featured .work-media{aspect-ratio:21/9}
+.work-media img{width:100%;height:100%;object-fit:cover;transition:transform 1.1s var(--ease),filter .6s;filter:grayscale(.35) brightness(.82)}
+.work:hover .work-media img{transform:scale(1.06);filter:grayscale(0) brightness(1)}
+.work-media::after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,transparent 40%,rgba(7,8,10,.9))}
+.work-empty-media{
+  width:100%;height:100%;display:flex;align-items:center;justify-content:center;
+  background:
+    repeating-linear-gradient(45deg,rgba(200,164,92,.035) 0 10px,transparent 10px 20px),
+    linear-gradient(160deg,var(--surface-2),var(--charcoal));
+  font-family:var(--mono);font-size:10px;letter-spacing:.24em;color:var(--muted-2);
+}
+.work-flag{
+  position:absolute;top:16px;left:16px;z-index:3;font-family:var(--mono);font-size:9px;
+  letter-spacing:.2em;padding:6px 12px;background:rgba(7,8,10,.75);border:1px solid var(--line-strong);
+  color:var(--gold-2);backdrop-filter:blur(8px);
+}
+.work-cat{
+  position:absolute;top:16px;right:16px;z-index:3;font-family:var(--mono);font-size:9px;
+  letter-spacing:.16em;color:var(--muted);text-transform:uppercase;
+}
+.work-body{padding:26px 26px 28px;display:flex;flex-direction:column;flex:1}
+.work-title{font-family:var(--serif);font-size:26px;margin:0 0 11px;letter-spacing:.02em}
+.work-desc{color:var(--muted);font-size:13.8px;font-weight:300;margin:0 0 20px;flex:1;line-height:1.65}
+.tech-row{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:22px}
+.tech{
+  font-family:var(--mono);font-size:9.5px;letter-spacing:.09em;color:var(--muted);
+  border:1px solid var(--line-soft);padding:4px 10px;
+}
+.work-foot{display:flex;align-items:center;justify-content:space-between;gap:14px;padding-top:18px;border-top:1px solid var(--line-soft)}
+.work-open{font-family:var(--mono);font-size:10px;letter-spacing:.2em;color:var(--gold);display:flex;align-items:center;gap:9px;transition:gap .3s}
+.work:hover .work-open{gap:15px}
+.work-links{display:flex;gap:8px}
+.icon-btn{
+  width:34px;height:34px;border:1px solid var(--line-soft);display:flex;align-items:center;justify-content:center;
+  color:var(--muted);transition:.3s;
+}
+.icon-btn:hover{color:var(--gold);border-color:var(--line-strong);background:rgba(200,164,92,.06)}
+.icon-btn svg{width:15px;height:15px}
+
+/* ============================================================
+   CASE STUDY OVERLAY
+   ============================================================ */
+#case{
+  position:fixed;inset:0;z-index:1200;background:var(--obsidian);overflow-y:auto;
+  opacity:0;visibility:hidden;transition:opacity .5s var(--ease),visibility .5s;
+}
+#case.open{opacity:1;visibility:visible}
+.case-bar{
+  position:sticky;top:0;z-index:10;background:rgba(7,8,10,.9);backdrop-filter:blur(16px);
+  border-bottom:1px solid var(--line-soft);padding:16px 0;
+}
+.case-bar .container{display:flex;align-items:center;justify-content:space-between;gap:20px}
+.case-back{display:flex;align-items:center;gap:10px;font-family:var(--mono);font-size:10.5px;letter-spacing:.2em;color:var(--muted);transition:.3s}
+.case-back:hover{color:var(--gold)}
+.case-hero{padding:74px 0 54px;position:relative}
+.case-hero h1{font-family:var(--serif);font-weight:400;font-size:clamp(38px,7vw,76px);line-height:1.03;margin:16px 0 22px}
+.case-hero .lede{font-family:var(--serif);font-size:clamp(18px,2.2vw,23px);color:var(--ink-2);max-width:740px;font-weight:300;line-height:1.6}
+.case-cover{margin:46px 0 0;border:1px solid var(--line-soft);overflow:hidden;background:var(--surface)}
+.case-cover img{width:100%;max-height:600px;object-fit:cover}
+.case-layout{display:grid;grid-template-columns:1fr 300px;gap:70px;padding:64px 0 110px;align-items:start}
+.case-sec{margin-bottom:54px}
+.case-sec h2{
+  font-family:var(--mono);font-size:11px;letter-spacing:.28em;color:var(--gold);
+  margin:0 0 20px;font-weight:400;display:flex;align-items:center;gap:16px;
+}
+.case-sec h2::after{content:'';flex:1;height:1px;background:linear-gradient(90deg,var(--line),transparent)}
+.case-sec p{color:var(--ink-2);font-weight:300;margin:0 0 16px;font-size:15.5px}
+.case-sec ul{margin:0;padding:0;list-style:none;display:grid;gap:11px}
+.case-sec li{display:flex;gap:14px;color:var(--ink-2);font-weight:300;font-size:15px}
+.case-sec li::before{content:'';width:5px;height:5px;background:var(--gold);flex:none;margin-top:10px;transform:rotate(45deg)}
+.case-aside{position:sticky;top:100px;display:grid;gap:1px;background:var(--line-soft);border:1px solid var(--line-soft)}
+.case-aside-row{background:var(--charcoal);padding:18px 20px}
+.case-aside-row dt{font-family:var(--mono);font-size:9px;letter-spacing:.2em;color:var(--muted-2);margin-bottom:9px;text-transform:uppercase}
+.case-aside-row dd{margin:0;font-size:13.5px;color:var(--ink-2)}
+.case-aside-row .tech-row{margin:0}
+.shots{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:14px}
+.shots img{border:1px solid var(--line-soft);width:100%;aspect-ratio:16/10;object-fit:cover;transition:.5s;cursor:zoom-in}
+.shots img:hover{border-color:var(--line-strong);filter:brightness(1.1)}
+.case-nav{display:flex;justify-content:space-between;gap:20px;padding:34px 0 90px;border-top:1px solid var(--line-soft)}
+
+/* ============================================================
+   VAULT
+   ============================================================ */
+.tabs{display:flex;gap:2px;border-bottom:1px solid var(--line-soft);margin-bottom:40px}
+.tab{
+  font-family:var(--mono);font-size:10.5px;letter-spacing:.2em;text-transform:uppercase;
+  padding:14px 24px;color:var(--muted);position:relative;transition:.3s;
+}
+.tab::after{content:'';position:absolute;left:0;right:0;bottom:-1px;height:1px;background:var(--gold);transform:scaleX(0);transition:transform .4s var(--ease)}
+.tab.active{color:var(--gold-2)}
+.tab.active::after{transform:scaleX(1)}
+.vault-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:20px}
+.doc{
+  border:1px solid var(--line-soft);background:linear-gradient(165deg,var(--surface),var(--charcoal));
+  padding:26px;position:relative;transition:.5s var(--ease);overflow:hidden;
+}
+.doc::before{
+  content:'';position:absolute;top:0;right:0;width:52px;height:52px;
+  background:linear-gradient(225deg,rgba(200,164,92,.1) 50%,transparent 50%);
+  transition:.5s;
+}
+.doc:hover{border-color:var(--line-strong);transform:translateY(-4px)}
+.doc:hover::before{width:70px;height:70px}
+.doc-seal{font-family:var(--mono);font-size:9px;letter-spacing:.22em;color:var(--gold-deep);margin-bottom:16px}
+.doc-title{font-family:var(--serif);font-size:22px;margin:0 0 8px;line-height:1.25}
+.doc-org{font-size:13px;color:var(--muted);margin:0 0 16px}
+.doc-desc{font-size:13.5px;color:var(--ink-2);font-weight:300;margin:0 0 20px;line-height:1.6}
+.doc-meta{display:flex;justify-content:space-between;align-items:center;gap:14px;padding-top:16px;border-top:1px solid var(--line-soft)}
+.doc-meta time{font-family:var(--mono);font-size:10px;color:var(--muted-2);letter-spacing:.1em}
+.doc-thumb{width:100%;aspect-ratio:4/3;object-fit:cover;border:1px solid var(--line-soft);margin-bottom:20px;background:var(--charcoal)}
+
+/* ============================================================
+   LABORATORY
+   ============================================================ */
+.lab-status-row{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:40px}
+.lab-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(310px,1fr));gap:20px}
+.lab-card{
+  border:1px solid var(--line-soft);background:var(--charcoal);padding:0;
+  position:relative;overflow:hidden;transition:.5s var(--ease);
+}
+.lab-card:hover{border-color:var(--line-strong)}
+.lab-card::after{
+  content:'';position:absolute;inset:0;pointer-events:none;opacity:.5;
+  background-image:linear-gradient(rgba(200,164,92,.035) 1px,transparent 1px);
+  background-size:100% 5px;
+}
+.lab-head{
+  display:flex;align-items:center;justify-content:space-between;gap:12px;
+  padding:14px 20px;border-bottom:1px solid var(--line-soft);background:rgba(0,0,0,.25);
+}
+.lab-id{font-family:var(--mono);font-size:9.5px;letter-spacing:.18em;color:var(--muted-2)}
+.pill{
+  font-family:var(--mono);font-size:9px;letter-spacing:.18em;padding:5px 11px;
+  border:1px solid currentColor;text-transform:uppercase;
+}
+.pill.idea{color:#7f8fa6}
+.pill.experiment{color:#b89a5c}
+.pill.building{color:#c58b4e}
+.pill.completed{color:#6f9e6a}
+.lab-body{padding:24px 20px 26px;position:relative;z-index:2}
+.lab-type{font-family:var(--mono);font-size:9px;letter-spacing:.2em;color:var(--gold-deep);margin-bottom:11px;text-transform:uppercase}
+.lab-title{font-family:var(--serif);font-size:22px;margin:0 0 11px}
+.lab-desc{font-size:13.5px;color:var(--muted);font-weight:300;margin:0 0 18px;line-height:1.6}
+.lab-img{width:100%;aspect-ratio:16/9;object-fit:cover;border:1px solid var(--line-soft);margin-bottom:18px}
+.lab-foot{display:flex;justify-content:space-between;align-items:center;font-family:var(--mono);font-size:9.5px;color:var(--muted-2);letter-spacing:.1em}
+
+/* ============================================================
+   SOCIAL COURT
+   ============================================================ */
+.court{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:1px;background:var(--line-soft);border:1px solid var(--line-soft)}
+.court-link{
+  background:var(--charcoal);padding:34px 28px;display:flex;flex-direction:column;gap:16px;
+  position:relative;overflow:hidden;transition:.5s var(--ease);
+}
+.court-link::before{
+  content:'';position:absolute;inset:0;background:radial-gradient(circle at 0% 0%,rgba(200,164,92,.13),transparent 60%);
+  opacity:0;transition:opacity .5s;
+}
+.court-link:hover{background:var(--surface-2)}
+.court-link:hover::before{opacity:1}
+.court-link svg{width:22px;height:22px;color:var(--gold);position:relative}
+.court-name{font-family:var(--serif);font-size:21px;position:relative}
+.court-handle{font-family:var(--mono);font-size:10px;letter-spacing:.14em;color:var(--muted-2);position:relative;word-break:break-all}
+.court-arrow{position:absolute;top:26px;right:26px;color:var(--muted-2);transition:.4s var(--ease)}
+.court-link:hover .court-arrow{color:var(--gold);transform:translate(3px,-3px)}
+
+/* ============================================================
+   RESUME
+   ============================================================ */
+.resume-grid{display:grid;grid-template-columns:1.35fr .65fr;gap:44px;align-items:start}
+.resume-viewer{
+  border:1px solid var(--line-soft);background:var(--surface);aspect-ratio:1/1.294;
+  position:relative;overflow:hidden;
+}
+.resume-viewer iframe,.resume-viewer img{width:100%;height:100%;border:0;object-fit:contain;background:#fff}
+.resume-empty{
+  position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;
+  gap:16px;text-align:center;padding:40px;
+  background:repeating-linear-gradient(45deg,rgba(200,164,92,.03) 0 12px,transparent 12px 24px);
+}
+.resume-empty svg{width:38px;height:38px;color:var(--gold-deep)}
+.resume-empty p{color:var(--muted);font-size:14px;max-width:280px;margin:0}
+.resume-side{display:grid;gap:16px}
+
+/* ============================================================
+   CONTACT
+   ============================================================ */
+.contact-grid{display:grid;grid-template-columns:.85fr 1.15fr;gap:70px;align-items:start}
+.form-field{margin-bottom:22px;position:relative}
+.form-field label{
+  display:block;font-family:var(--mono);font-size:9.5px;letter-spacing:.22em;
+  color:var(--muted-2);text-transform:uppercase;margin-bottom:10px;
+}
+.input,.textarea,.select{
+  width:100%;background:rgba(255,255,255,.018);border:1px solid var(--line-soft);
+  padding:14px 16px;color:var(--ink);font-size:14.5px;transition:.35s var(--ease);
+  font-family:var(--sans);outline:none;
+}
+.textarea{min-height:150px;resize:vertical;line-height:1.6}
+.input:focus,.textarea:focus,.select:focus{border-color:var(--line-strong);background:rgba(200,164,92,.035)}
+.input.err,.textarea.err{border-color:var(--danger)}
+.err-msg{font-family:var(--mono);font-size:10px;color:#d18b83;margin-top:8px;letter-spacing:.06em;min-height:14px}
+.form-note{font-size:12.5px;color:var(--muted-2);margin-top:20px;line-height:1.6}
+.form-state{
+  margin-top:18px;padding:15px 18px;border:1px solid var(--line-soft);font-size:13.5px;
+  display:none;align-items:center;gap:12px;
+}
+.form-state.show{display:flex}
+.form-state.ok{border-color:rgba(111,158,106,.4);color:#a8c9a4;background:rgba(111,158,106,.06)}
+.form-state.bad{border-color:rgba(180,84,74,.4);color:#d18b83;background:rgba(180,84,74,.06)}
+.spinner{
+  width:13px;height:13px;border:1.5px solid rgba(200,164,92,.25);border-top-color:var(--gold);
+  border-radius:50%;animation:spin .8s linear infinite;flex:none;
+}
+
+/* ============================================================
+   EMPTY STATES
+   ============================================================ */
+.empty{
+  border:1px dashed var(--line-soft);padding:64px 40px;text-align:center;
+  background:rgba(255,255,255,.008);
+}
+.empty svg{width:30px;height:30px;color:var(--gold-deep);margin-bottom:18px}
+.empty h4{font-family:var(--serif);font-size:22px;margin:0 0 10px;font-weight:400}
+.empty p{color:var(--muted);font-size:14px;margin:0 auto;max-width:420px}
+.empty code{
+  font-family:var(--mono);font-size:12px;color:var(--gold);background:rgba(200,164,92,.08);
+  padding:2px 8px;border:1px solid var(--line);
+}
+
+/* ============================================================
+   FOOTER
+   ============================================================ */
+footer{border-top:1px solid var(--line-soft);padding:64px 0 44px;position:relative}
+.foot-grid{display:flex;justify-content:space-between;gap:40px;flex-wrap:wrap;align-items:flex-end}
+.foot-brand{font-family:var(--serif);font-size:clamp(30px,5vw,58px);letter-spacing:.06em;line-height:1;margin:0 0 14px}
+.foot-brand b{color:var(--gold);font-weight:400}
+.foot-sub{font-family:var(--mono);font-size:10px;letter-spacing:.22em;color:var(--muted-2)}
+.foot-links{display:flex;gap:26px;flex-wrap:wrap}
+.foot-links a{font-family:var(--mono);font-size:10.5px;letter-spacing:.16em;color:var(--muted);transition:.3s}
+.foot-links a:hover{color:var(--gold)}
+.foot-base{
+  margin-top:44px;padding-top:26px;border-top:1px solid var(--line-soft);
+  display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;
+  font-family:var(--mono);font-size:10px;letter-spacing:.14em;color:var(--muted-2);
+}
+
+/* ============================================================
+   REVEAL
+   ============================================================ */
+.reveal{opacity:0;transform:translateY(30px);transition:opacity .9s var(--ease),transform .9s var(--ease)}
+.reveal.in{opacity:1;transform:none}
+.reveal.d1{transition-delay:.08s}.reveal.d2{transition-delay:.16s}
+.reveal.d3{transition-delay:.24s}.reveal.d4{transition-delay:.32s}.reveal.d5{transition-delay:.4s}
+
+/* ============================================================
+   ADMIN — ROYAL CONTROL ROOM
+   ============================================================ */
+#admin{
+  position:fixed;inset:0;z-index:2000;background:var(--obsidian);
+  display:none;overflow:hidden;
+}
+#admin.open{display:block}
+.admin-shell{display:grid;grid-template-columns:262px 1fr;height:100%}
+.admin-side{
+  border-right:1px solid var(--line-soft);background:var(--charcoal);
+  display:flex;flex-direction:column;overflow-y:auto;
+}
+.admin-brand{padding:26px 24px;border-bottom:1px solid var(--line-soft)}
+.admin-brand .t{font-family:var(--serif);font-size:18px;letter-spacing:.18em}
+.admin-brand .s{font-family:var(--mono);font-size:9px;letter-spacing:.24em;color:var(--gold-deep);margin-top:6px}
+.admin-nav{padding:14px 0;flex:1}
+.admin-nav button{
+  display:flex;align-items:center;gap:13px;width:100%;padding:12px 24px;
+  font-size:13px;color:var(--muted);transition:.3s;text-align:left;border-left:2px solid transparent;
+}
+.admin-nav button svg{width:16px;height:16px;flex:none;opacity:.75}
+.admin-nav button:hover{color:var(--ink-2);background:rgba(255,255,255,.02)}
+.admin-nav button.active{color:var(--gold-2);border-left-color:var(--gold);background:rgba(200,164,92,.055)}
+.admin-nav button .cnt{
+  margin-left:auto;font-family:var(--mono);font-size:9.5px;color:var(--muted-2);
+  border:1px solid var(--line-soft);padding:1px 7px;
+}
+.admin-side-foot{padding:18px 24px;border-top:1px solid var(--line-soft);display:grid;gap:9px}
+.admin-main{overflow-y:auto;background:var(--obsidian)}
+.admin-top{
+  position:sticky;top:0;z-index:20;background:rgba(7,8,10,.92);backdrop-filter:blur(16px);
+  border-bottom:1px solid var(--line-soft);padding:20px 36px;
+  display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap;
+}
+.admin-top h2{font-family:var(--serif);font-size:25px;margin:0;font-weight:400}
+.admin-top .hint{font-family:var(--mono);font-size:10px;letter-spacing:.14em;color:var(--muted-2);margin-top:6px}
+.admin-body{padding:34px 36px 100px}
+.stats{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:1px;background:var(--line-soft);border:1px solid var(--line-soft);margin-bottom:36px}
+.stat{background:var(--charcoal);padding:22px}
+.stat .v{font-family:var(--serif);font-size:36px;line-height:1;color:var(--gold-2)}
+.stat .l{font-family:var(--mono);font-size:9px;letter-spacing:.2em;color:var(--muted-2);margin-top:10px;text-transform:uppercase}
+.admin-toolbar{display:flex;justify-content:space-between;align-items:center;gap:16px;margin-bottom:22px;flex-wrap:wrap}
+.admin-list{display:grid;gap:1px;background:var(--line-soft);border:1px solid var(--line-soft)}
+.admin-row{
+  background:var(--charcoal);padding:16px 20px;display:flex;align-items:center;gap:18px;transition:.3s;
+}
+.admin-row:hover{background:var(--surface-2)}
+.admin-row .thumb{
+  width:52px;height:52px;flex:none;border:1px solid var(--line-soft);overflow:hidden;
+  display:flex;align-items:center;justify-content:center;background:var(--surface);color:var(--gold-deep);
+}
+.admin-row .thumb img{width:100%;height:100%;object-fit:cover}
+.admin-row .meta{flex:1;min-width:0}
+.admin-row .meta .t{font-size:14.5px;color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.admin-row .meta .s{font-family:var(--mono);font-size:10px;color:var(--muted-2);margin-top:5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.admin-row .acts{display:flex;gap:7px;flex:none}
+.mini{
+  width:32px;height:32px;border:1px solid var(--line-soft);display:flex;align-items:center;justify-content:center;
+  color:var(--muted);transition:.3s;
+}
+.mini svg{width:14px;height:14px}
+.mini:hover{color:var(--gold);border-color:var(--line-strong)}
+.mini.del:hover{color:#d18b83;border-color:rgba(180,84,74,.5)}
+.admin-panel{
+  border:1px solid var(--line-soft);background:var(--charcoal);padding:30px;margin-bottom:26px;
+}
+.admin-panel h3{font-family:var(--serif);font-size:20px;margin:0 0 22px;font-weight:400}
+.form-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:20px}
+.form-grid .full{grid-column:1/-1}
+.checks{display:flex;align-items:center;gap:10px;padding-top:24px}
+.checks input{width:auto;accent-color:var(--gold)}
+.dropzone{
+  border:1px dashed var(--line-soft);padding:26px;text-align:center;transition:.3s;cursor:pointer;
+  background:rgba(255,255,255,.008);
+}
+.dropzone:hover,.dropzone.over{border-color:var(--line-strong);background:rgba(200,164,92,.05)}
+.dropzone svg{width:22px;height:22px;color:var(--gold-deep);margin-bottom:10px}
+.dropzone p{margin:0;font-size:13px;color:var(--muted)}
+.dropzone small{font-family:var(--mono);font-size:9.5px;color:var(--muted-2);display:block;margin-top:7px}
+.previews{display:flex;flex-wrap:wrap;gap:10px;margin-top:14px}
+.preview{position:relative;width:88px;height:88px;border:1px solid var(--line-soft);overflow:hidden}
+.preview img{width:100%;height:100%;object-fit:cover}
+.preview button{
+  position:absolute;top:3px;right:3px;width:19px;height:19px;background:rgba(7,8,10,.85);
+  border:1px solid var(--line-soft);color:#d18b83;font-size:12px;line-height:1;display:flex;
+  align-items:center;justify-content:center;
+}
+.progress{height:2px;background:var(--line-soft);margin-top:12px;overflow:hidden;display:none}
+.progress.show{display:block}
+.progress i{display:block;height:100%;width:0;background:var(--gold);transition:width .25s}
+
+/* Modal */
+#modal{
+  position:fixed;inset:0;z-index:2500;background:rgba(4,5,7,.86);backdrop-filter:blur(8px);
+  display:none;align-items:flex-start;justify-content:center;padding:40px 20px;overflow-y:auto;
+}
+#modal.open{display:flex}
+.modal-box{
+  width:100%;max-width:860px;background:var(--charcoal);border:1px solid var(--line);
+  padding:32px;animation:modalIn .45s var(--ease);
+}
+@keyframes modalIn{from{opacity:0;transform:translateY(22px) scale(.985)}to{opacity:1;transform:none}}
+.modal-head{display:flex;justify-content:space-between;align-items:center;gap:20px;margin-bottom:26px;padding-bottom:20px;border-bottom:1px solid var(--line-soft)}
+.modal-head h3{font-family:var(--serif);font-size:24px;margin:0;font-weight:400}
+.modal-foot{display:flex;justify-content:flex-end;gap:12px;margin-top:30px;padding-top:24px;border-top:1px solid var(--line-soft)}
+.gate{
+  min-height:100vh;display:flex;align-items:center;justify-content:center;padding:40px 20px;
+}
+.gate-box{width:100%;max-width:420px;border:1px solid var(--line);background:var(--charcoal);padding:44px 38px;text-align:center}
+.gate-box .em{width:64px;height:64px;margin:0 auto 26px}
+.gate-box h1{font-family:var(--serif);font-size:26px;margin:0 0 10px;font-weight:400;letter-spacing:.06em}
+.gate-box p{color:var(--muted);font-size:13.5px;margin:0 0 28px}
+.toast{
+  position:fixed;bottom:28px;left:50%;transform:translate(-50%,120%);z-index:3000;
+  background:var(--charcoal);border:1px solid var(--line-strong);padding:14px 24px;
+  font-family:var(--mono);font-size:11px;letter-spacing:.12em;color:var(--gold-2);
+  transition:transform .5s var(--ease);max-width:calc(100% - 40px);
+}
+.toast.show{transform:translate(-50%,0)}
+
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
+@media (max-width:1080px){
+  .hero-grid{grid-template-columns:1fr;gap:56px}
+  .portrait-wrap{order:-1;max-width:320px;margin:0 auto}
+  .identity-grid{grid-template-columns:1fr;gap:40px}
+  .case-layout{grid-template-columns:1fr;gap:40px}
+  .case-aside{position:static}
+  .resume-grid{grid-template-columns:1fr}
+  .contact-grid{grid-template-columns:1fr;gap:44px}
+  .work.featured{grid-column:span 1}
+  .admin-shell{grid-template-columns:1fr}
+  .admin-side{
+    position:fixed;left:0;top:0;bottom:0;width:262px;z-index:60;
+    transform:translateX(-100%);transition:transform .4s var(--ease);
+  }
+  .admin-side.open{transform:none}
+  .admin-burger{display:flex !important}
+}
+@media (max-width:820px){
+  .nav-links{display:none}
+  .burger{display:flex}
+  .container{padding:0 22px}
+  section.block{padding:92px 0}
+  .works-grid{grid-template-columns:1fr}
+  .vault-grid,.lab-grid,.court{grid-template-columns:1fr}
+  .hero-meta{gap:26px}
+  .admin-body{padding:24px 20px 90px}
+  .admin-top{padding:16px 20px}
+  .modal-box{padding:24px 20px}
+  .case-hero{padding:48px 0 34px}
+  #cursor-glow{display:none}
+}
+@media (max-width:520px){
+  .hero-cta{flex-direction:column;align-items:stretch}
+  .btn{justify-content:center}
+  .intro-skip{bottom:24px;right:24px}
+  .foot-grid{flex-direction:column;align-items:flex-start}
+}
+
+/* ============================================================
+   REDUCED MOTION
+   ============================================================ */
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{
+    animation-duration:.001ms !important;animation-iteration-count:1 !important;
+    transition-duration:.001ms !important;scroll-behavior:auto !important;
+  }
+  .reveal{opacity:1 !important;transform:none !important}
+  .hero-name .ch{opacity:1 !important;transform:none !important}
+  #particles,#cursor-glow{display:none}
+}
+.admin-burger{display:none;width:40px;height:40px;border:1px solid var(--line-soft);align-items:center;justify-content:center;color:var(--muted)}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+</style>
+</head>
+<body class="locked">
+
+<!-- ══════════════════════════════════════════════════════════
+     INTRO SEQUENCE
+     ══════════════════════════════════════════════════════════ -->
+<div id="intro" role="dialog" aria-label="Loading SUMIT.EXE">
+  <div class="emblem">
+    <svg viewBox="0 0 120 120" fill="none">
+      <circle class="ring" cx="60" cy="60" r="52" stroke="#c8a45c" stroke-width=".7" opacity=".5"/>
+      <circle cx="60" cy="60" r="42" stroke="#c8a45c" stroke-width=".7" opacity=".22"/>
+      <path d="M60 16 L100 60 L60 104 L20 60 Z" stroke="#c8a45c" stroke-width=".9" opacity=".7"/>
+      <path d="M60 34 L84 60 L60 86 L36 60 Z" stroke="#e8d7ab" stroke-width=".9" opacity=".9"/>
+      <text x="60" y="70" text-anchor="middle" font-family="Cormorant Garamond, Georgia, serif"
+            font-size="30" fill="#e8d7ab" letter-spacing="1">S</text>
+    </svg>
+  </div>
+  <div class="intro-title">SUMIT.EXE</div>
+  <div class="intro-log" id="introLog" aria-live="polite"></div>
+  <button class="intro-skip" id="skipIntro">SKIP INTRO →</button>
+  <div class="intro-bar"></div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════
+     AMBIENT
+     ══════════════════════════════════════════════════════════ -->
+<div id="ambient" aria-hidden="true">
+  <div class="grid-layer"></div>
+  <canvas id="particles"></canvas>
+  <div class="vignette"></div>
+  <div class="noise"></div>
+</div>
+<div id="cursor-glow" aria-hidden="true"></div>
+
+<!-- ══════════════════════════════════════════════════════════
+     SHELL
+     ══════════════════════════════════════════════════════════ -->
+<div class="shell" id="shell">
+
+  <header class="nav" id="nav">
+    <div class="container nav-inner">
+      <a href="#hero" class="brand" aria-label="SUMIT.EXE home">
+        <svg class="brand-mark" viewBox="0 0 120 120" fill="none" aria-hidden="true">
+          <path d="M60 12 L108 60 L60 108 L12 60 Z" stroke="#c8a45c" stroke-width="2"/>
+          <path d="M60 34 L86 60 L60 86 L34 60 Z" stroke="#c8a45c" stroke-width="2" opacity=".45"/>
+          <text x="60" y="72" text-anchor="middle" font-family="Cormorant Garamond, Georgia, serif" font-size="34" fill="#e8d7ab">S</text>
+        </svg>
+        <span class="brand-name">SUMIT<b>.EXE</b></span>
+      </a>
+      <nav class="nav-links" id="navLinks" aria-label="Primary"></nav>
+      <div class="nav-actions">
+        <a href="#/admin" class="btn ghost sm" id="adminLink">Control Room</a>
+        <button class="burger" id="burger" aria-label="Menu" aria-expanded="false">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <div class="mobile-menu" id="mobileMenu"></div>
+
+  <main>
+    <!-- ════════ HERO ════════ -->
+    <section id="hero">
+      <div class="container hero-grid">
+        <div class="hero-copy">
+          <div class="hero-tag"><i class="pulse"></i><span id="heroTag">INITIALIZING IDENTITY</span></div>
+          <h1 class="hero-name" id="heroName"></h1>
+          <div class="hero-roles" id="heroRoles"></div>
+          <p class="hero-statement" id="heroStatement"></p>
+          <p class="hero-intro" id="heroIntro"></p>
+          <div class="hero-cta">
+            <a href="#works" class="btn" data-magnetic><span id="ctaPrimary">EXPLORE MY WORK</span></a>
+            <a href="#lab" class="btn ghost" data-magnetic><span id="ctaSecondary">ENTER THE LAB</span></a>
+          </div>
+          <dl class="hero-meta" id="heroMeta"></dl>
+        </div>
+        <div class="portrait-wrap">
+          <div class="portrait-aura"></div>
+          <div class="portrait-frame" data-tilt>
+            <span class="portrait-corner pc-tl"></span>
+            <span class="portrait-corner pc-tr"></span>
+            <span class="portrait-corner pc-bl"></span>
+            <span class="portrait-corner pc-br"></span>
+            <div id="portraitImg" style="width:100%;height:100%"></div>
+            <div class="portrait-badge">
+              <div class="nm" id="portraitName">Sumit Chavda</div>
+              <div class="rl" id="portraitRole">DEV · AI<br>CREATIVE TECH</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="scroll-cue"><span>SCROLL</span><i></i></div>
+    </section>
+
+    <!-- ════════ 01 IDENTITY ════════ -->
+    <section class="block" id="identity">
+      <div class="container">
+        <div class="sec-head reveal">
+          <div class="sec-index">01 — THE IDENTITY</div>
+          <h2 class="sec-title">The person behind <em>the machine</em></h2>
+        </div>
+        <div class="identity-grid">
+          <aside class="id-card reveal d1" id="idCard"></aside>
+          <div class="identity-body reveal d2" id="identityBody"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ════════ 02 CRAFT ════════ -->
+    <section class="block" id="craft">
+      <div class="container">
+        <div class="sec-head reveal">
+          <div class="sec-index">02 — THE CRAFT</div>
+          <h2 class="sec-title">The skill <em>arsenal</em></h2>
+          <p class="sec-sub">Every capability, catalogued and classified. Filter the arsenal, inspect any entry.</p>
+        </div>
+        <div class="filter-row reveal d1" id="skillFilters"></div>
+        <div class="arsenal reveal d2" id="arsenal"></div>
+      </div>
+    </section>
+
+    <!-- ════════ 03 WORKS ════════ -->
+    <section class="block" id="works">
+      <div class="container">
+        <div class="sec-head reveal">
+          <div class="sec-index">03 — THE WORKS</div>
+          <h2 class="sec-title">Selected <em>constructions</em></h2>
+          <p class="sec-sub">Open any project to enter its full case study — the problem, the idea, the build.</p>
+        </div>
+        <div class="works-grid" id="worksGrid"></div>
+      </div>
+    </section>
+
+    <!-- ════════ 04 VAULT ════════ -->
+    <section class="block" id="vault">
+      <div class="container">
+        <div class="sec-head reveal">
+          <div class="sec-index">04 — THE VAULT</div>
+          <h2 class="sec-title">Archived <em>credentials</em></h2>
+          <p class="sec-sub">Certificates and achievements, preserved as archived documents.</p>
+        </div>
+        <div class="tabs reveal d1" id="vaultTabs">
+          <button class="tab active" data-vault="certificates">Certificates</button>
+          <button class="tab" data-vault="achievements">Achievements</button>
+        </div>
+        <div id="vaultBody" class="reveal d2"></div>
+      </div>
+    </section>
+
+    <!-- ════════ 05 LAB ════════ -->
+    <section class="block" id="lab">
+      <div class="container">
+        <div class="sec-head reveal">
+          <div class="sec-index">05 — THE LABORATORY</div>
+          <h2 class="sec-title">Experiments &amp; <em>unfinished ideas</em></h2>
+          <p class="sec-sub">A working log of prototypes, AI experiments and concepts in progress.</p>
+        </div>
+        <div class="lab-status-row reveal d1" id="labFilters"></div>
+        <div class="lab-grid reveal d2" id="labGrid"></div>
+      </div>
+    </section>
+
+    <!-- ════════ 06 SOCIAL COURT ════════ -->
+    <section class="block" id="social">
+      <div class="container">
+        <div class="sec-head reveal">
+          <div class="sec-index">06 — THE SOCIAL COURT</div>
+          <h2 class="sec-title">Channels of <em>contact</em></h2>
+          <p class="sec-sub">Where the work lives and where I can be reached.</p>
+        </div>
+        <div class="court reveal d1" id="court"></div>
+      </div>
+    </section>
+
+    <!-- ════════ 07 RESUME ════════ -->
+    <section class="block" id="resume">
+      <div class="container">
+        <div class="sec-head reveal">
+          <div class="sec-index">07 — THE RESUME</div>
+          <h2 class="sec-title">The <em>dossier</em></h2>
+          <p class="sec-sub">Full professional record — viewable and downloadable.</p>
+        </div>
+        <div class="resume-grid">
+          <div class="resume-viewer reveal d1" id="resumeViewer"></div>
+          <div class="resume-side reveal d2" id="resumeSide"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ════════ 08 CONTACT ════════ -->
+    <section class="block" id="contact">
+      <div class="container">
+        <div class="sec-head reveal">
+          <div class="sec-index">08 — CONTACT THE BUILDER</div>
+          <h2 class="sec-title">Open a <em>channel</em></h2>
+          <p class="sec-sub">Send a message directly. It lands in the Control Room inbox.</p>
+        </div>
+        <div class="contact-grid">
+          <div class="reveal d1">
+            <p class="hero-statement" style="font-size:22px">Have an idea worth building, a collaboration, or a role in mind?</p>
+            <p class="sec-sub" style="margin-bottom:30px">Use the form. Messages are stored locally in this build's Control Room inbox — no third-party service or API key required.</p>
+            <div class="id-rows" id="contactMeta"></div>
+          </div>
+          <form class="reveal d2" id="contactForm" novalidate>
+            <div class="form-field">
+              <label for="cf-name">Your name</label>
+              <input class="input" id="cf-name" name="name" type="text" autocomplete="name" placeholder="Full name" />
+              <div class="err-msg" data-err="name"></div>
+            </div>
+            <div class="form-field">
+              <label for="cf-email">Email address</label>
+              <input class="input" id="cf-email" name="email" type="email" autocomplete="email" placeholder="you@example.com" />
+              <div class="err-msg" data-err="email"></div>
+            </div>
+            <div class="form-field">
+              <label for="cf-msg">Message</label>
+              <textarea class="textarea" id="cf-msg" name="message" placeholder="Tell me what you're building…"></textarea>
+              <div class="err-msg" data-err="message"></div>
+            </div>
+            <button type="submit" class="btn" id="contactSubmit" data-magnetic><span>SEND MESSAGE</span></button>
+            <div class="form-state" id="formState" role="status" aria-live="polite"></div>
+          </form>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container">
+      <div class="foot-grid">
+        <div>
+          <h2 class="foot-brand">SUMIT<b>.EXE</b></h2>
+          <div class="foot-sub">DEVELOPER • AI BUILDER • CREATIVE TECHNOLOGIST</div>
+        </div>
+        <nav class="foot-links" id="footLinks" aria-label="Footer"></nav>
+      </div>
+      <div class="foot-base">
+        <span>© <span id="year"></span> SUMIT.EXE — ALL RIGHTS RESERVED</span>
+        <span>THE DIGITAL ROYAL CHAMBER</span>
+      </div>
+    </div>
+  </footer>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════
+     CASE STUDY OVERLAY
+     ══════════════════════════════════════════════════════════ -->
+<div id="case" role="dialog" aria-modal="true" aria-label="Project case study">
+  <div class="case-bar">
+    <div class="container">
+      <button class="case-back" id="caseBack">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="15" height="15"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+        BACK TO THE WORKS
+      </button>
+      <span class="eyebrow" id="caseIdx"></span>
+    </div>
+  </div>
+  <div id="caseBody"></div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════
+     ADMIN — ROYAL CONTROL ROOM
+     ══════════════════════════════════════════════════════════ -->
+<div id="admin" role="dialog" aria-modal="true" aria-label="Royal Control Room">
+  <div id="adminGate"></div>
+  <div class="admin-shell" id="adminShell" style="display:none">
+    <aside class="admin-side" id="adminSide">
+      <div class="admin-brand">
+        <div class="t">CONTROL ROOM</div>
+        <div class="s">SUMIT.EXE / ADMIN</div>
+      </div>
+      <nav class="admin-nav" id="adminNav"></nav>
+      <div class="admin-side-foot">
+        <a href="#/" class="btn ghost sm" id="viewSite" style="justify-content:center"><span>VIEW SITE</span></a>
+        <button class="btn ghost sm" id="logoutBtn" style="justify-content:center"><span>SIGN OUT</span></button>
+      </div>
+    </aside>
+    <div class="admin-main">
+      <div class="admin-top">
+        <div style="display:flex;align-items:center;gap:16px">
+          <button class="admin-burger" id="adminBurger" aria-label="Toggle menu">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="18" height="18"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+          </button>
+          <div>
+            <h2 id="adminTitle">Dashboard</h2>
+            <div class="hint" id="adminHint">Overview of your digital estate</div>
+          </div>
+        </div>
+        <div style="display:flex;gap:10px;flex-wrap:wrap" id="adminTopActions"></div>
+      </div>
+      <div class="admin-body" id="adminBody"></div>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL + TOAST -->
+<div id="modal" role="dialog" aria-modal="true">
+  <div class="modal-box" id="modalBox"></div>
+</div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+/* ══════════════════════════════════════════════════════════════════════
+   SUMIT.EXE — APPLICATION
+   ----------------------------------------------------------------------
+   ARCHITECTURE
+   1. Utils          — helpers, escaping, hashing, file conversion
+   2. Icons          — inline SVG set (lucide-style)
+   3. Data Layer     — schema, seed, local adapter, Supabase adapter
+   4. Public Render  — all portfolio sections
+   5. Interactions   — nav, reveal, tilt, magnetic, cursor, particles
+   6. Intro          — cinematic boot sequence
+   7. Case Study     — immersive project overlay
+   8. Contact        — validation + inbox persistence
+   9. Admin          — Royal Control Room (auth + CRUD + uploads)
+   10. Boot
+   ══════════════════════════════════════════════════════════════════════ */
+(function () {
+'use strict';
+
+/* ════════════════════════════════════════════════════════════
+   1. UTILS
+   ════════════════════════════════════════════════════════════ */
+const $  = (s, r = document) => r.querySelector(s);
+const $$ = (s, r = document) => Array.from(r.querySelectorAll(s));
+
+const esc = (v) => String(v == null ? '' : v)
+  .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+  .replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+
+const uid = (p = 'id') => p + '_' + Date.now().toString(36) + Math.random().toString(36).slice(2, 7);
+
+const REDUCED = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+function fmtDate(d) {
+  if (!d) return '—';
+  const dt = new Date(d);
+  if (isNaN(dt)) return d;
+  return dt.toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' }).toUpperCase();
+}
+
+function slugify(s) {
+  return String(s || '').toLowerCase().trim()
+    .replace(/[^a-z0-9\s-]/g, '').replace(/\s+/g, '-').replace(/-+/g, '-').slice(0, 60) || 'project';
+}
+
+async function hashStr(str) {
+  // Prefer WebCrypto; fall back to a deterministic non-crypto digest for file:// contexts.
+  try {
+    if (window.crypto && window.crypto.subtle && window.isSecureContext) {
+      const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(str));
+      return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2, '0')).join('');
+    }
+  } catch (_) { /* fall through */ }
+  let h1 = 0x811c9dc5, h2 = 0x01000193;
+  for (let i = 0; i < str.length; i++) {
+    h1 ^= str.charCodeAt(i); h1 = (h1 * 16777619) >>> 0;
+    h2 = ((h2 << 5) - h2 + str.charCodeAt(i)) >>> 0;
+  }
+  return 'fb' + h1.toString(16) + h2.toString(16);
+}
+
+function fileToDataURL(file) {
+  return new Promise((res, rej) => {
+    const r = new FileReader();
+    r.onload = () => res(r.result);
+    r.onerror = () => rej(new Error('Could not read file'));
+    r.readAsDataURL(file);
+  });
+}
+
+function toast(msg) {
+  const t = $('#toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  clearTimeout(t._t);
+  t._t = setTimeout(() => t.classList.remove('show'), 2600);
+}
+
+function deepClone(o) { return JSON.parse(JSON.stringify(o)); }
+
+/* ════════════════════════════════════════════════════════════
+   2. ICONS
+   ════════════════════════════════════════════════════════════ */
+const ICONS = {
+  code:       '<path d="M16 18l6-6-6-6M8 6l-6 6 6 6"/>',
+  cpu:        '<rect x="4" y="4" width="16" height="16" rx="1"/><rect x="9" y="9" width="6" height="6"/><path d="M9 1v3M15 1v3M9 20v3M15 20v3M20 9h3M20 14h3M1 9h3M1 14h3"/>',
+  database:   '<ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M3 5v14c0 1.7 4 3 9 3s9-1.3 9-3V5M3 12c0 1.7 4 3 9 3s9-1.3 9-3"/>',
+  brain:      '<path d="M12 3a4 4 0 0 0-4 4v1a4 4 0 0 0 0 8v1a4 4 0 0 0 8 0v-1a4 4 0 0 0 0-8V7a4 4 0 0 0-4-4z"/><path d="M12 8v8"/>',
+  terminal:   '<path d="M4 17l6-5-6-5M12 19h8"/>',
+  sparkles:   '<path d="M12 3l1.9 5.1L19 10l-5.1 1.9L12 17l-1.9-5.1L5 10l5.1-1.9z"/><path d="M19 3v3M20.5 4.5h-3"/>',
+  globe:      '<circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15 15 0 0 1 0 20 15 15 0 0 1 0-20z"/>',
+  layers:     '<path d="M12 2l10 5-10 5L2 7z"/><path d="M2 12l10 5 10-5M2 17l10 5 10-5"/>',
+  palette:    '<circle cx="12" cy="12" r="10"/><circle cx="8" cy="10" r="1.2"/><circle cx="12" cy="7.5" r="1.2"/><circle cx="16" cy="10" r="1.2"/><path d="M12 22a3 3 0 0 0 3-3 2 2 0 0 1 2-2h1"/>',
+  wrench:     '<path d="M14.7 6.3a4 4 0 0 0 5 5L11 20a2.8 2.8 0 0 1-4-4z"/>',
+  server:     '<rect x="2" y="3" width="20" height="7" rx="1"/><rect x="2" y="14" width="20" height="7" rx="1"/><path d="M6 6.5h.01M6 17.5h.01"/>',
+  flask:      '<path d="M9 3h6M10 3v6L5 19a2 2 0 0 0 2 3h10a2 2 0 0 0 2-3l-5-10V3"/><path d="M7.5 15h9"/>',
+  rocket:     '<path d="M5 15c-1 3 0 5 0 5s2 1 5 0"/><path d="M14.5 4.5C17 2 21 3 21 3s1 4-1.5 6.5L12 17l-5-5z"/><circle cx="15.5" cy="8.5" r="1.2"/>',
+  eye:        '<path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7-11-7-11-7z"/><circle cx="12" cy="12" r="3"/>',
+  award:      '<circle cx="12" cy="9" r="6"/><path d="M8.5 14L7 22l5-3 5 3-1.5-8"/>',
+  file:       '<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M9 13h6M9 17h6"/>',
+  github:     '<path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.9a3.4 3.4 0 0 0-1-2.6c3.1-.3 6.4-1.6 6.4-7A5.4 5.4 0 0 0 20 4.8 5 5 0 0 0 19.9 1S18.7.6 16 2.5a13 13 0 0 0-7 0C6.3.6 5.1 1 5.1 1A5 5 0 0 0 5 4.8 5.4 5.4 0 0 0 3.6 8.5c0 5.4 3.3 6.7 6.4 7a3.4 3.4 0 0 0-1 2.6V22"/>',
+  linkedin:   '<path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-4 0v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/>',
+  instagram:  '<rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><path d="M17.5 6.5h.01"/>',
+  youtube:    '<path d="M22 8.2a3 3 0 0 0-2.1-2.1C18.2 5.5 12 5.5 12 5.5s-6.2 0-7.9.6A3 3 0 0 0 2 8.2 31 31 0 0 0 1.5 12 31 31 0 0 0 2 15.8a3 3 0 0 0 2.1 2.1c1.7.6 7.9.6 7.9.6s6.2 0 7.9-.6a3 3 0 0 0 2.1-2.1A31 31 0 0 0 22.5 12 31 31 0 0 0 22 8.2z"/><path d="M10 15V9l5 3z"/>',
+  mail:       '<rect x="2" y="4" width="20" height="16" rx="2"/><path d="M2 7l10 6 10-6"/>',
+  link:       '<path d="M10 13a5 5 0 0 0 7 0l3-3a5 5 0 0 0-7-7l-1 1"/><path d="M14 11a5 5 0 0 0-7 0l-3 3a5 5 0 0 0 7 7l1-1"/>',
+  twitter:    '<path d="M22 5.9a8 8 0 0 1-2.3.6 4 4 0 0 0 1.8-2.2 8 8 0 0 1-2.5 1A4 4 0 0 0 12 8.7 11 11 0 0 1 3.5 4.5a4 4 0 0 0 1.2 5.3 4 4 0 0 1-1.8-.5 4 4 0 0 0 3.2 3.9 4 4 0 0 1-1.8.1 4 4 0 0 0 3.7 2.8A8 8 0 0 1 2 18a11 11 0 0 0 6 1.7c7.2 0 11.1-6 11.1-11.1v-.5A8 8 0 0 0 22 5.9z"/>',
+  edit:       '<path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"/>',
+  trash:      '<path d="M3 6h18M8 6V4a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1v2M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/>',
+  plus:       '<path d="M12 5v14M5 12h14"/>',
+  x:          '<path d="M18 6L6 18M6 6l12 12"/>',
+  download:   '<path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="M7 10l5 5 5-5M12 15V3"/>',
+  upload:     '<path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="M17 8l-5-5-5 5M12 3v12"/>',
+  arrowUR:    '<path d="M7 17L17 7M7 7h10v10"/>',
+  arrowR:     '<path d="M5 12h14M12 5l7 7-7 7"/>',
+  diamond:    '<path d="M12 2l10 10-10 10L2 12z"/>',
+  search:     '<circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/>',
+  layout:     '<rect x="3" y="3" width="18" height="18" rx="1"/><path d="M3 9h18M9 21V9"/>',
+  user:       '<circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/>',
+  settings:   '<circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.9l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-2.9 1.2V21a2 2 0 1 1-4 0v-.1A1.7 1.7 0 0 0 7 19.4a1.7 1.7 0 0 0-1.9.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0-1.2-2.9H1a2 2 0 1 1 0-4h.1A1.7 1.7 0 0 0 2.6 7a1.7 1.7 0 0 0-.3-1.9l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1A1.7 1.7 0 0 0 7 2.6h.1A1.7 1.7 0 0 0 8.3 1V1a2 2 0 1 1 4 0v.1A1.7 1.7 0 0 0 15 2.6a1.7 1.7 0 0 0 1.9-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0 1.2 2.9H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/>',
+  inbox:      '<path d="M22 12h-6l-2 3h-4l-2-3H2"/><path d="M5.4 5.1L2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.4-6.9A2 2 0 0 0 16.8 4H7.2a2 2 0 0 0-1.8 1.1z"/>',
+  refresh:    '<path d="M23 4v6h-6M1 20v-6h6"/><path d="M3.5 9a9 9 0 0 1 14.9-3.4L23 10M1 14l4.6 4.4A9 9 0 0 0 20.5 15"/>',
+  alert:      '<path d="M10.3 3.9L1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/><path d="M12 9v4M12 17h.01"/>',
+  check:      '<path d="M20 6L9 17l-5-5"/>',
+  lock:       '<rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/>',
+  play:       '<circle cx="12" cy="12" r="10"/><path d="M10 8l6 4-6 4z"/>'
+};
+
+function icon(name, cls) {
+  const p = ICONS[name] || ICONS.diamond;
+  return `<svg class="ic ${cls || ''}" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+    stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${p}</svg>`;
+}
+
+const ICON_KEYS = Object.keys(ICONS);
+
+/* Social platform → icon + label mapping */
+const PLATFORMS = {
+  github:    { label: 'GitHub',    icon: 'github' },
+  linkedin:  { label: 'LinkedIn',  icon: 'linkedin' },
+  instagram: { label: 'Instagram', icon: 'instagram' },
+  youtube:   { label: 'YouTube',   icon: 'youtube' },
+  twitter:   { label: 'X / Twitter', icon: 'twitter' },
+  email:     { label: 'Email',     icon: 'mail' },
+  website:   { label: 'Website',   icon: 'globe' },
+  other:     { label: 'Link',      icon: 'link' }
+};
+
+/* ════════════════════════════════════════════════════════════
+   3. DATA LAYER
+   ════════════════════════════════════════════════════════════ */
+const DB_KEY = 'sumitexe.db.v1';
+const SESSION_KEY = 'sumitexe.session';
+
+const PLACEHOLDER = 'PLACEHOLDER — replace in /admin';
+
+/* Initial schema. Mirrors the Supabase table structure documented at the
+   bottom of this file. Everything here is editable from /admin. */
+function seedDB() {
+  return {
+    meta: { version: 1, createdAt: new Date().toISOString() },
+
+    profile: {
+      name: 'Sumit Chavda',
+      role: 'Developer • AI Builder • Creative Technologist',
+      avatar: '',                                   // data URL or remote URL
+      location: PLACEHOLDER + ' → Profile → Location',
+      status: 'Available for collaboration',
+      bio: 'I build systems at the intersection of software engineering, applied AI and interface design. Most of my work starts as a question about how something should feel, and ends as a working product.',
+      about: 'I am a developer and creative technologist focused on building digital experiences that are as considered in their engineering as they are in their presentation. My interests sit across applied machine learning, real-time systems and front-end craft — the places where intelligence meets interface. I work in small, deliberate iterations: prototype, break, refine, ship. This portfolio itself is part of that practice — a living system I can reshape without touching a line of code.',
+      philosophy: '"Craft is the difference between something that works and something that is worth using."',
+      focus: 'Currently focused on applied AI systems, real-time data interfaces and building tools that reduce friction for people who use them daily.'
+    },
+
+    homepage: {
+      heroTitle: 'SUMIT.EXE',
+      heroTag: 'SYSTEM ONLINE — PORTFOLIO v1',
+      roles: ['DEVELOPER', 'AI BUILDER', 'CREATIVE TECHNOLOGIST'],
+      statement: 'I don\u2019t just build projects. I build digital experiences.',
+      intro: 'Developer and creative technologist working across applied AI, real-time systems and interface engineering. Every build below is documented end to end.',
+      ctaPrimary: 'EXPLORE MY WORK',
+      ctaSecondary: 'ENTER THE LAB',
+      currentFocus: 'Applied AI • Real-time interfaces • Developer tooling'
+    },
+
+    skills: [
+      { id: 'sk_1', name: 'Python',            category: 'Programming',         description: 'Primary language for AI, data pipelines and backend tooling.',            icon: 'code',    level: null, order: 1 },
+      { id: 'sk_2', name: 'JavaScript / TypeScript', category: 'Programming',   description: 'Typed front-end and Node-based tooling across the stack.',                icon: 'code',    level: null, order: 2 },
+      { id: 'sk_3', name: 'React & Next.js',   category: 'Web Development',     description: 'Component architecture, routing, SSR and production front-ends.',         icon: 'layers',  level: null, order: 3 },
+      { id: 'sk_4', name: 'Tailwind CSS',      category: 'Web Development',     description: 'Utility-first styling with design-token driven systems.',                 icon: 'palette', level: null, order: 4 },
+      { id: 'sk_5', name: 'Machine Learning',  category: 'AI / Machine Learning', description: 'Model training, evaluation and applied inference pipelines.',           icon: 'brain',   level: null, order: 5 },
+      { id: 'sk_6', name: 'Computer Vision',   category: 'AI / Machine Learning', description: 'Real-time detection, tracking and visual inference on live feeds.',     icon: 'eye',     level: null, order: 6 },
+      { id: 'sk_7', name: 'LLM Integration',   category: 'AI / Machine Learning', description: 'Prompt architecture, retrieval flows and AI assistant interfaces.',     icon: 'sparkles',level: null, order: 7 },
+      { id: 'sk_8', name: 'OpenCV',            category: 'AI / Machine Learning', description: 'Frame processing, feature extraction and vision utilities.',            icon: 'eye',     level: null, order: 8 },
+      { id: 'sk_9', name: 'Git & GitHub',      category: 'Tools',               description: 'Version control, branching strategy and collaborative workflows.',        icon: 'github',  level: null, order: 9 },
+      { id: 'sk_10', name: 'Linux / Shell',    category: 'Tools',               description: 'Command-line environments, scripting and deployment basics.',             icon: 'terminal',level: null, order: 10 },
+      { id: 'sk_11', name: 'VS Code',          category: 'Tools',               description: 'Primary development environment, tuned for speed.',                      icon: 'wrench',  level: null, order: 11 },
+      { id: 'sk_12', name: 'MySQL',            category: 'Database',            description: 'Relational schema design, queries and data modelling.',                  icon: 'database',level: null, order: 12 },
+      { id: 'sk_13', name: 'Supabase / Postgres', category: 'Database',         description: 'Postgres-backed apps with auth, storage and row-level security.',        icon: 'server',  level: null, order: 13 },
+      { id: 'sk_14', name: 'UI / UX Design',   category: 'Creative Technology', description: 'Interface systems, motion design and interaction detail.',               icon: 'palette', level: null, order: 14 },
+      { id: 'sk_15', name: 'Motion & Interaction', category: 'Creative Technology', description: 'Scroll choreography, transitions and micro-interaction design.',     icon: 'sparkles',level: null, order: 15 }
+    ],
+
+    projects: [
+      {
+        id: 'pr_1',
+        title: 'StarkGPT',
+        category: 'AI / Machine Learning',
+        short: 'An AI study assistant built to help students work through material interactively rather than passively.',
+        full: 'StarkGPT is an AI-powered study assistant designed around a simple observation: reading notes is passive, but being questioned is active. The system turns study material into an interactive session.',
+        cover: '',
+        images: [],
+        video: '',
+        github: '',
+        demo: '',
+        featured: true,
+        order: 1,
+        case: {
+          overview: 'StarkGPT is an AI study assistant that reframes revision as a conversation. Instead of re-reading notes, the user works through material with a system that can explain, question and summarise.',
+          problem: 'Study material is usually static. Students re-read the same pages, recognise the content, and mistake recognition for understanding. There is no feedback loop that exposes what has actually been learned.',
+          idea: 'If revision felt like a dialogue instead of a document, gaps in understanding would surface immediately — the same way they do when someone asks you a question you cannot answer.',
+          solution: 'An assistant interface built around conversational study sessions: the user brings material in, and the system works through it in structured turns — explanation, questioning, and summary.',
+          how: 'The front-end handles the session flow and conversation state. Prompts are constructed around the user\u2019s material and routed to a language model. Responses are structured so the session stays on-topic and moves forward rather than looping.',
+          features: [
+            'Conversational study sessions',
+            'Material-driven prompt construction',
+            'Structured explain → question → summarise flow',
+            'Session history for revisiting past topics'
+          ]
+        }
+      },
+      {
+        id: 'pr_2',
+        title: 'AI-Based Smart Eye for Blind',
+        category: 'Assistive Technology',
+        short: 'A computer-vision system designed to describe the immediate environment to a visually impaired user in real time.',
+        full: 'Smart Eye applies real-time computer vision to the problem of environmental awareness for visually impaired users. A camera feed is processed to identify obstacles and objects, and the result is communicated back through audio.',
+        cover: '',
+        images: [],
+        video: '',
+        github: '',
+        demo: '',
+        featured: false,
+        order: 2,
+        case: {
+          overview: 'A real-time assistive system that uses computer vision to identify objects and obstacles in a user\u2019s path, then communicates what it detects through an audio channel.',
+          problem: 'Independent navigation for visually impaired people relies heavily on canes and guide dogs, both of which detect only a limited range of obstacles and give no information about what an object actually is.',
+          idea: 'A camera paired with on-device vision could describe the environment rather than just detecting collisions — adding context to proximity.',
+          solution: 'A camera feed is processed frame by frame. Detected objects and their relative position are converted into short spoken descriptions delivered through audio output.',
+          how: 'Frames are captured from the camera and passed through an object detection model. Detection results are filtered for relevance by position and size, then serialised into a concise spoken message and rendered through text-to-speech.',
+          features: [
+            'Live camera frame processing',
+            'Object detection with position awareness',
+            'Audio feedback through text-to-speech',
+            'Prioritisation of obstacles directly ahead'
+          ]
+        }
+      },
+      {
+        id: 'pr_3',
+        title: 'Real-Time Vehicle Monitoring System',
+        category: 'Systems / IoT',
+        short: 'A monitoring system that tracks vehicle telemetry in real time and surfaces it through a live operator dashboard.',
+        full: 'A real-time monitoring platform for vehicle data. Telemetry is captured, streamed and displayed through a dashboard that updates live, giving an operator a continuously current view of vehicle state.',
+        cover: '',
+        images: [],
+        video: '',
+        github: '',
+        demo: '',
+        featured: false,
+        order: 3,
+        case: {
+          overview: 'A system for capturing vehicle telemetry and presenting it through a live monitoring dashboard with continuous updates.',
+          problem: 'Vehicle data is often reviewed after the fact, in reports and logs. By the time an anomaly is visible, the moment to act has passed.',
+          idea: 'If telemetry streamed continuously into a single live view, an operator could see state as it happens rather than reconstruct it afterwards.',
+          solution: 'A data pipeline that captures vehicle parameters, streams them to a backend, and pushes updates to a dashboard over a persistent connection.',
+          how: 'Telemetry is collected and transmitted to the server, which maintains current state and broadcasts updates to connected dashboard clients. The dashboard renders incoming values live without page refreshes.',
+          features: [
+            'Continuous telemetry ingestion',
+            'Live dashboard with push updates',
+            'Current-state tracking per vehicle',
+            'Historical record of received data'
+          ]
+        }
+      }
+    ],
+
+    certificates: [],
+    achievements: [],
+
+    lab: [
+      {
+        id: 'lb_1',
+        title: 'Prompt Architecture Notes',
+        type: 'AI Experiment',
+        description: 'Ongoing notes on structuring multi-turn prompts for study and research assistants. Testing how session framing changes output quality.',
+        image: '', link: '', status: 'EXPERIMENT',
+        date: new Date().toISOString().slice(0, 10)
+      },
+      {
+        id: 'lb_2',
+        title: 'Edge Vision Prototype',
+        type: 'Prototype',
+        description: 'Exploring how far object detection can be pushed on low-power hardware before accuracy degrades unacceptably for assistive use.',
+        image: '', link: '', status: 'BUILDING',
+        date: new Date().toISOString().slice(0, 10)
+      },
+      {
+        id: 'lb_3',
+        title: 'Interface Motion System',
+        type: 'UI Experiment',
+        description: 'A reusable motion specification — durations, easings and reveal patterns — intended to make interface animation feel intentional rather than decorative.',
+        image: '', link: '', status: 'IDEA',
+        date: new Date().toISOString().slice(0, 10)
+      }
+    ],
+
+    socials: [
+      { id: 'so_1', platform: 'github',   label: '', url: '' },
+      { id: 'so_2', platform: 'linkedin', label: '', url: '' },
+      { id: 'so_3', platform: 'email',    label: '', url: '' }
+    ],
+
+    resume: { file: '', name: '', type: '', updated: '' },
+
+    settings: {
+      passcodeHash: null,
+      supabase: { url: '', anonKey: '' }
+    },
+
+    inbox: []
+  };
+}
+
+/* ── Local storage adapter ─────────────────────────────────── */
+const LocalAdapter = {
+  load() {
+    try {
+      const raw = localStorage.getItem(DB_KEY);
+      if (!raw) return null;
+      const parsed = JSON.parse(raw);
+      return parsed && typeof parsed === 'object' ? parsed : null;
+    } catch (e) { console.warn('[SUMIT.EXE] load failed', e); return null; }
+  },
+  save(db) {
+    try { localStorage.setItem(DB_KEY, JSON.stringify(db)); return true; }
+    catch (e) {
+      console.warn('[SUMIT.EXE] save failed', e);
+      toast('STORAGE FULL — use smaller images or connect Supabase');
+      return false;
+    }
+  },
+  clear() { try { localStorage.removeItem(DB_KEY); } catch (_) {} }
+};
+
+/* ── Supabase adapter (optional, lazy-loaded) ──────────────
+   Activated only when a URL + anon key are saved in Admin → Settings.
+   Tables expected (see SQL schema at the bottom of this file):
+     profiles, homepage_settings, skills, projects, project_images,
+     certificates, achievements, lab_entries, social_links, resume,
+     messages
+   The public site always renders from the local cache for speed;
+   the cloud is the source of truth on load and the sink on write.
+   ─────────────────────────────────────────────────────────── */
+const Cloud = {
+  client: null,
+  ready: false,
+  async init(settings) {
+    const { url, anonKey } = (settings && settings.supabase) || {};
+    if (!url || !anonKey) { this.ready = false; return false; }
+    try {
+      const mod = await import('https://esm.sh/@supabase/supabase-js@2');
+      this.client = mod.createClient(url, anonKey);
+      this.ready = true;
+      return true;
+    } catch (e) {
+      console.warn('[SUMIT.EXE] Supabase init failed — using local data', e);
+      this.ready = false;
+      return false;
+    }
+  },
+  async pullAll() {
+    if (!this.ready) return null;
+    try {
+      const tables = ['profiles', 'homepage_settings', 'skills', 'projects', 'certificates',
+                      'achievements', 'lab_entries', 'social_links', 'resume'];
+      const results = await Promise.all(tables.map(t => this.client.from(t).select('*')));
+      const out = {};
+      tables.forEach((t, i) => { out[t] = results[i].data || []; });
+      return out;
+    } catch (e) { console.warn('[SUMIT.EXE] cloud pull failed', e); return null; }
+  },
+  async upsert(table, rows) {
+    if (!this.ready) return;
+    try { await this.client.from(table).upsert(rows); }
+    catch (e) { console.warn('[SUMIT.EXE] cloud upsert failed', table, e); }
+  },
+  async remove(table, id) {
+    if (!this.ready) return;
+    try { await this.client.from(table).delete().eq('id', id); }
+    catch (e) { console.warn('[SUMIT.EXE] cloud delete failed', table, e); }
+  }
+};
+
+/* ── Store ─────────────────────────────────────────────────── */
+const Store = {
+  db: null,
+
+  init() {
+    const stored = LocalAdapter.load();
+    if (stored) {
+      // Merge forward: any key added in a newer build is filled from seed.
+      const seed = seedDB();
+      this.db = Object.assign(seed, stored);
+      this.db.settings = Object.assign(seed.settings, stored.settings || {});
+      this.db.settings.supabase = Object.assign(seed.settings.supabase, (stored.settings || {}).supabase || {});
+      this.db.profile = Object.assign(seed.profile, stored.profile || {});
+      this.db.homepage = Object.assign(seed.homepage, stored.homepage || {});
+      this.db.resume = Object.assign(seed.resume, stored.resume || {});
+      ['skills','projects','certificates','achievements','lab','socials','inbox'].forEach(k => {
+        if (!Array.isArray(this.db[k])) this.db[k] = seed[k];
+      });
+    } else {
+      this.db = seedDB();
+      LocalAdapter.save(this.db);
+    }
+    return this.db;
+  },
+
+  save() { return LocalAdapter.save(this.db); },
+
+  /* Generic collection helpers */
+  list(col) { return (this.db[col] || []).slice(); },
+  get(col, id) { return (this.db[col] || []).find(x => x.id === id) || null; },
+
+  upsert(col, item) {
+    if (!Array.isArray(this.db[col])) this.db[col] = [];
+    const i = this.db[col].findIndex(x => x.id === item.id);
+    if (i > -1) this.db[col][i] = item; else this.db[col].push(item);
+    this.save();
+    return item;
+  },
+
+  remove(col, id) {
+    this.db[col] = (this.db[col] || []).filter(x => x.id !== id);
+    this.save();
+  },
+
+  reset() {
+    this.db = seedDB();
+    this.save();
+  },
+
+  exportJSON() { return JSON.stringify(this.db, null, 2); },
+
+  importJSON(text) {
+    const parsed = JSON.parse(text);
+    if (!parsed || typeof parsed !== 'object') throw new Error('Invalid file');
+    this.db = Object.assign(seedDB(), parsed);
+    this.save();
+  }
+};
+
+const DB = Store.init();
+
+/* ════════════════════════════════════════════════════════════
+   4. PUBLIC RENDER
+   ════════════════════════════════════════════════════════════ */
+const SECTIONS = [
+  { id: 'identity', index: '01', label: 'Identity' },
+  { id: 'craft',    index: '02', label: 'Craft' },
+  { id: 'works',    index: '03', label: 'Works' },
+  { id: 'vault',    index: '04', label: 'Vault' },
+  { id: 'lab',      index: '05', label: 'Laboratory' },
+  { id: 'social',   index: '06', label: 'Court' },
+  { id: 'resume',   index: '07', label: 'Resume' },
+  { id: 'contact',  index: '08', label: 'Contact' }
+];
+
+/* ── Hero ─────────────────────────────────────────────────── */
+function renderHero() {
+  const p = DB.profile, h = DB.homepage;
+
+  $('#heroTag').textContent = h.heroTag || 'SYSTEM ONLINE';
+
+  const title = h.heroTitle || p.name || 'SUMIT.EXE';
+  $('#heroName').innerHTML = title.split('').map((c, i) => {
+    if (c === '.') return `<span class="ch dot" style="animation-delay:${i * 45}ms">.</span>`;
+    if (c === ' ') return '<span class="ch" style="animation-delay:' + (i * 45) + 'ms">&nbsp;</span>';
+    return `<span class="ch" style="animation-delay:${i * 45}ms">${esc(c)}</span>`;
+  }).join('');
+
+  const roles = (h.roles && h.roles.length ? h.roles : ['DEVELOPER', 'AI BUILDER', 'CREATIVE TECHNOLOGIST']);
+  $('#heroRoles').innerHTML = roles.map((r, i) =>
+    `${i ? '<i></i>' : ''}<span>${esc(r)}</span>`).join('');
+
+  const stmt = h.statement || '';
+  const m = stmt.match(/^(.*?)(I build digital experiences\.?)(.*)$/i);
+  $('#heroStatement').innerHTML = m
+    ? `${esc(m[1])}<b>${esc(m[2])}</b>${esc(m[3])}`
+    : esc(stmt);
+
+  $('#heroIntro').textContent = h.intro || p.bio || '';
+  $('#ctaPrimary').textContent = h.ctaPrimary || 'EXPLORE MY WORK';
+  $('#ctaSecondary').textContent = h.ctaSecondary || 'ENTER THE LAB';
+
+  $('#heroMeta').innerHTML = [
+    ['NAME', p.name],
+    ['ROLE', (p.role || '').split('•')[0].trim()],
+    ['LOCATION', p.location],
+    ['STATUS', p.status]
+  ].map(([k, v]) => `<div><dt>${esc(k)}</dt><dd>${esc(v || '—')}</dd></div>`).join('');
+
+  $('#portraitName').textContent = p.name || 'SUMIT CHAVDA';
+  $('#portraitRole').innerHTML = (p.role || 'DEVELOPER').split('•').map(s => esc(s.trim())).join('<br>');
+
+  $('#portraitImg').innerHTML = p.avatar
+    ? `<img src="${esc(p.avatar)}" alt="Portrait of ${esc(p.name)}" loading="eager" />`
+    : `<div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;
+         background:repeating-linear-gradient(45deg,rgba(200,164,92,.04) 0 12px,transparent 12px 24px),
+                    linear-gradient(160deg,#161a21,#0c0e12);">
+         <svg viewBox="0 0 120 120" fill="none" style="width:56%;opacity:.5">
+           <path d="M60 14 L106 60 L60 106 L14 60 Z" stroke="#c8a45c" stroke-width="1.4"/>
+           <text x="60" y="76" text-anchor="middle" font-family="Cormorant Garamond, Georgia, serif"
+                 font-size="46" fill="#e8d7ab">${esc((p.name || 'S').trim().charAt(0).toUpperCase())}</text>
+         </svg>
+       </div>`;
+}
+
+/* ── Identity ─────────────────────────────────────────────── */
+function renderIdentity() {
+  const p = DB.profile;
+  const rows = [
+    ['FULL NAME', p.name],
+    ['ROLE', p.role],
+    ['LOCATION', p.location],
+    ['STATUS', p.status]
+  ];
+
+  $('#idCard').innerHTML = `
+    <div class="id-photo">
+      ${p.avatar
+        ? `<img src="${esc(p.avatar)}" alt="${esc(p.name)}" />`
+        : `<div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;background:linear-gradient(160deg,#161a21,#0c0e12)">
+             <svg viewBox="0 0 120 120" fill="none" style="width:52%;opacity:.45">
+               <path d="M60 14 L106 60 L60 106 L14 60 Z" stroke="#c8a45c" stroke-width="1.4"/>
+               <text x="60" y="76" text-anchor="middle" font-family="Cormorant Garamond, Georgia, serif" font-size="46" fill="#e8d7ab">${esc((p.name || 'S').charAt(0))}</text>
+             </svg>
+           </div>`}
+    </div>
+    <h3 class="id-name">${esc(p.name)}</h3>
+    <div class="id-role">${esc((p.role || '').toUpperCase())}</div>
+    <dl class="id-rows">
+      ${rows.map(([k, v]) => `
+        <div class="id-row">
+          <dt>${esc(k)}</dt>
+          <dd>${k === 'STATUS' && v ? `<span class="status-dot">${esc(v)}</span>` : esc(v || '—')}</dd>
+        </div>`).join('')}
+    </dl>`;
+
+  const bio = (p.about || '').split(/\n\s*\n/).filter(Boolean);
+  $('#identityBody').innerHTML = `
+    ${bio.length
+      ? `<p class="lead">${esc(bio[0])}</p>${bio.slice(1).map(x => `<p>${esc(x)}</p>`).join('')}`
+      : `<p class="lead">${esc(p.bio || PLACEHOLDER)}</p>`}
+    ${p.focus ? `<div class="focus-box">
+        <h4>CURRENT FOCUS</h4>
+        <p>${esc(p.focus)}</p>
+      </div>` : ''}
+    ${p.philosophy ? `<p class="philosophy">${esc(p.philosophy)}</p>` : ''}`;
+}
+
+/* ── Craft / Skills ───────────────────────────────────────── */
+let skillFilter = 'ALL';
+
+function renderSkills() {
+  const all = Store.list('skills').sort((a, b) => (a.order ?? 99) - (b.order ?? 99));
+  const cats = ['ALL', ...Array.from(new Set(all.map(s => s.category).filter(Boolean)))];
+
+  $('#skillFilters').innerHTML = cats.map(c =>
+    `<button class="chip ${c === skillFilter ? 'active' : ''}" data-cat="${esc(c)}">${esc(c)}</button>`
+  ).join('');
+
+  const items = skillFilter === 'ALL' ? all : all.filter(s => s.category === skillFilter);
+
+  if (!items.length) {
+    $('#arsenal').innerHTML = emptyState('award', 'No skills in this category',
+      'Add skills from <code>/admin</code> → Skills.');
+    return;
+  }
+
+  $('#arsenal').innerHTML = items.map(s => `
+    <article class="skill" data-skill="${esc(s.id)}">
+      <div class="skill-top">
+        <span class="skill-ic">${icon(s.icon)}</span>
+        <span class="skill-cat">${esc(s.category || '—')}</span>
+      </div>
+      <h3 class="skill-name">${esc(s.name)}</h3>
+      ${s.description ? `<p class="skill-desc">${esc(s.description)}</p>` : ''}
+      ${s.level != null && s.level !== '' ? `
+        <div class="skill-level">
+          <div class="skill-bar"><i style="--lvl:${Math.max(0, Math.min(100, Number(s.level))) / 100}"></i></div>
+          <span>${esc(s.level)}</span>
+        </div>` : ''}
+    </article>`).join('');
+
+  // Animate bars on reveal
+  requestAnimationFrame(() => {
+    $$('.skill-bar i').forEach(el => {
+      const t = setTimeout(() => el.classList.add('go'), 120);
+      if (REDUCED) { clearTimeout(t); el.classList.add('go'); }
+    });
+  });
+}
+
+/* ── Works ────────────────────────────────────────────────── */
+function renderWorks() {
+  const items = Store.list('projects')
+    .sort((a, b) => (Number(b.featured) - Number(a.featured)) || ((a.order ?? 99) - (b.order ?? 99)));
+
+  if (!items.length) {
+    $('#worksGrid').innerHTML = emptyState('layers', 'No projects yet',
+      'Add your first project from <code>/admin</code> → Projects.');
+    return;
+  }
+
+  $('#worksGrid').innerHTML = items.map((p, i) => `
+    <article class="work ${p.featured ? 'featured' : ''} reveal d${Math.min(i, 4)}" data-project="${esc(p.id)}" tabindex="0" role="button"
+             aria-label="Open case study: ${esc(p.title)}">
+      <div class="work-media">
+        ${p.cover
+          ? `<img src="${esc(p.cover)}" alt="${esc(p.title)} cover" loading="lazy" />`
+          : `<div class="work-empty-media">COVER IMAGE — ADD IN /ADMIN</div>`}
+        ${p.featured ? `<span class="work-flag">FEATURED</span>` : ''}
+        ${p.category ? `<span class="work-cat">${esc(p.category)}</span>` : ''}
+      </div>
+      <div class="work-body">
+        <h3 class="work-title">${esc(p.title)}</h3>
+        <p class="work-desc">${esc(p.short || p.full || '')}</p>
+        ${(p.tech && p.tech.length) ? `<div class="tech-row">${p.tech.slice(0, 6).map(t => `<span class="tech">${esc(t)}</span>`).join('')}</div>` : ''}
+        <div class="work-foot">
+          <span class="work-open">OPEN CASE STUDY ${icon('arrowR')}</span>
+          <span class="work-links">
+            ${p.github ? `<a class="icon-btn" href="${esc(p.github)}" target="_blank" rel="noopener" aria-label="GitHub repository" data-stop>${icon('github')}</a>` : ''}
+            ${p.demo ? `<a class="icon-btn" href="${esc(p.demo)}" target="_blank" rel="noopener" aria-label="Live demo" data-stop>${icon('arrowUR')}</a>` : ''}
+          </span>
+        </div>
+      </div>
+    </article>`).join('');
+}
+
+/* ── Vault ────────────────────────────────────────────────── */
+let vaultTab = 'certificates';
+
+function renderVault() {
+  $$('#vaultTabs .tab').forEach(t => t.classList.toggle('active', t.dataset.vault === vaultTab));
+
+  const items = Store.list(vaultTab).sort((a, b) => new Date(b.date || 0) - new Date(a.date || 0));
+  const body = $('#vaultBody');
+
+  if (!items.length) {
+    body.innerHTML = emptyState(
+      vaultTab === 'certificates' ? 'award' : 'rocket',
+      vaultTab === 'certificates' ? 'The vault is empty' : 'No achievements recorded',
+      `Upload ${vaultTab === 'certificates' ? 'certificates' : 'achievements'} from <code>/admin</code> → ${vaultTab === 'certificates' ? 'Certificates' : 'Achievements'}.`
+    );
+    return;
+  }
+
+  body.innerHTML = `<div class="vault-grid">${items.map((c, i) => {
+    const thumb = c.image || c.file || '';
+    const isPdf = thumb.startsWith('data:application/pdf');
+    return `
+      <article class="doc reveal d${Math.min(i, 4)}">
+        <div class="doc-seal">ARCHIVE · ${esc((c.org || c.type || 'RECORD').toUpperCase().slice(0, 22))}</div>
+        ${thumb && !isPdf ? `<img class="doc-thumb" src="${esc(thumb)}" alt="${esc(c.title)}" loading="lazy" />` : ''}
+        <h3 class="doc-title">${esc(c.title)}</h3>
+        <p class="doc-org">${esc(c.org || c.type || '')}</p>
+        ${c.description ? `<p class="doc-desc">${esc(c.description)}</p>` : ''}
+        <div class="doc-meta">
+          <time>${esc(fmtDate(c.date))}</time>
+          ${(c.url || c.link)
+            ? `<a class="icon-btn" href="${esc(c.url || c.link)}" target="_blank" rel="noopener" aria-label="Open credential">${icon('arrowUR')}</a>`
+            : `<span style="font-family:var(--mono);font-size:9px;color:var(--muted-2)">NO LINK</span>`}
+        </div>
+      </article>`;
+  }).join('')}</div>`;
+}
+
+/* ── Lab ──────────────────────────────────────────────────── */
+let labFilter = 'ALL';
+const LAB_STATUSES = ['IDEA', 'EXPERIMENT', 'BUILDING', 'COMPLETED'];
+
+function renderLab() {
+  const all = Store.list('lab').sort((a, b) => new Date(b.date || 0) - new Date(a.date || 0));
+
+  $('#labFilters').innerHTML = ['ALL', ...LAB_STATUSES].map(s =>
+    `<button class="chip ${s === labFilter ? 'active' : ''}" data-lab="${s}">${s}</button>`).join('');
+
+  const items = labFilter === 'ALL' ? all : all.filter(l => (l.status || '').toUpperCase() === labFilter);
+
+  if (!items.length) {
+    $('#labGrid').innerHTML = emptyState('flask', 'Nothing in the laboratory yet',
+      'Log your first experiment from <code>/admin</code> → Digital Lab.');
+    return;
+  }
+
+  $('#labGrid').innerHTML = items.map((l, i) => `
+    <article class="lab-card reveal d${Math.min(i, 4)}">
+      <div class="lab-head">
+        <span class="lab-id">EXP-${String(i + 1).padStart(3, '0')}</span>
+        <span class="pill ${esc((l.status || 'idea').toLowerCase())}">${esc(l.status || 'IDEA')}</span>
+      </div>
+      <div class="lab-body">
+        ${l.image ? `<img class="lab-img" src="${esc(l.image)}" alt="${esc(l.title)}" loading="lazy" />` : ''}
+        ${l.type ? `<div class="lab-type">${esc(l.type)}</div>` : ''}
+        <h3 class="lab-title">${esc(l.title)}</h3>
+        ${l.description ? `<p class="lab-desc">${esc(l.description)}</p>` : ''}
+        <div class="lab-foot">
+          <time>${esc(fmtDate(l.date))}</time>
+          ${l.link ? `<a href="${esc(l.link)}" target="_blank" rel="noopener" style="color:var(--gold);display:flex;align-items:center;gap:7px">OPEN ${icon('arrowUR')}</a>` : '<span>NO LINK</span>'}
+        </div>
+      </div>
+    </article>`).join('');
+}
+
+/* ── Social Court ─────────────────────────────────────────── */
+function renderSocial() {
+  const items = Store.list('socials').filter(s => s.url);
+  const court = $('#court');
+
+  if (!items.length) {
+    court.innerHTML = emptyState('link', 'No channels configured',
+      'Add your real profile URLs from <code>/admin</code> → Social Links. Placeholder links are intentionally left empty.');
+    $('#footLinks').innerHTML = '';
+    return;
+  }
+
+  court.innerHTML = items.map((s, i) => {
+    const meta = PLATFORMS[s.platform] || PLATFORMS.other;
+    const display = s.label || meta.label;
+    const handle = s.platform === 'email'
+      ? s.url.replace(/^mailto:/, '')
+      : s.url.replace(/^https?:\/\//, '').replace(/\/$/, '');
+    const href = s.platform === 'email' && !s.url.startsWith('mailto:') ? 'mailto:' + s.url : s.url;
+
+    return `
+      <a class="court-link reveal d${Math.min(i, 4)}" href="${esc(href)}"
+         ${s.platform === 'email' ? '' : 'target="_blank" rel="noopener"'}>
+        ${icon(meta.icon)}
+        <span class="court-name">${esc(display)}</span>
+        <span class="court-handle">${esc(handle)}</span>
+        <span class="court-arrow">${icon('arrowUR')}</span>
+      </a>`;
+  }).join('');
+
+  $('#footLinks').innerHTML = items.map(s => {
+    const meta = PLATFORMS[s.platform] || PLATFORMS.other;
+    const href = s.platform === 'email' && !s.url.startsWith('mailto:') ? 'mailto:' + s.url : s.url;
+    return `<a href="${esc(href)}" ${s.platform === 'email' ? '' : 'target="_blank" rel="noopener"'}>${esc((s.label || meta.label).toUpperCase())}</a>`;
+  }).join('');
+}
+
+/* ── Resume ───────────────────────────────────────────────── */
+function renderResume() {
+  const r = DB.resume || {};
+  const viewer = $('#resumeViewer');
+  const side = $('#resumeSide');
+
+  if (r.file) {
+    const isPdf = (r.type || '').includes('pdf') || r.file.startsWith('data:application/pdf');
+    viewer.innerHTML = isPdf
+      ? `<iframe src="${esc(r.file)}" title="Resume preview"></iframe>`
+      : `<img src="${esc(r.file)}" alt="Resume preview" />`;
+
+    side.innerHTML = `
+      <div class="admin-panel" style="margin:0">
+        <h3 style="margin-bottom:14px">${esc(r.name || 'Resume')}</h3>
+        <p style="color:var(--muted);font-size:13px;margin:0 0 22px">
+          Last updated ${esc(fmtDate(r.updated))}
+        </p>
+        <div style="display:grid;gap:10px">
+          <a class="btn" href="${esc(r.file)}" download="${esc(r.name || 'resume')}" style="justify-content:center">
+            <span>${icon('download')} DOWNLOAD</span>
+          </a>
+          <a class="btn ghost" href="${esc(r.file)}" target="_blank" rel="noopener" style="justify-content:center">
+            <span>${icon('arrowUR')} OPEN FULL SCREEN</span>
+          </a>
+        </div>
+      </div>`;
+  } else {
+    viewer.innerHTML = `
+      <div class="resume-empty">
+        ${icon('file')}
+        <h4 style="font-family:var(--serif);font-size:22px;margin:0;font-weight:400">No resume uploaded</h4>
+        <p>Upload your resume from <code style="font-family:var(--mono);color:var(--gold)">/admin</code> → Resume. It will appear here instantly.</p>
+      </div>`;
+    side.innerHTML = `
+      <div class="admin-panel" style="margin:0">
+        <h3 style="margin-bottom:14px">Resume not configured</h3>
+        <p style="color:var(--muted);font-size:13.5px;margin:0">
+          This build does not include a placeholder resume file. Upload a real PDF or image
+          from the Control Room and this section will display and offer it for download.
+        </p>
+      </div>`;
+  }
+}
+
+/* ── Contact meta ─────────────────────────────────────────── */
+function renderContactMeta() {
+  const p = DB.profile;
+  const email = (Store.list('socials').find(s => s.platform === 'email') || {}).url || '';
+  $('#contactMeta').innerHTML = [
+    ['LOCATION', p.location],
+    ['STATUS', p.status],
+    ['EMAIL', email ? email.replace(/^mailto:/, '') : PLACEHOLDER]
+  ].map(([k, v]) => `<div class="id-row"><dt>${esc(k)}</dt><dd>${esc(v || '—')}</dd></div>`).join('');
+}
+
+/* ── Empty state helper ───────────────────────────────────── */
+function emptyState(ic, title, body) {
+  return `<div class="empty">${icon(ic)}<h4>${esc(title)}</h4><p>${body}</p></div>`;
+}
+
+/* ── Nav ──────────────────────────────────────────────────── */
+function renderNav() {
+  const links = SECTIONS.map(s =>
+    `<a href="#${s.id}" data-sec="${s.id}">${s.label}</a>`).join('');
+  $('#navLinks').innerHTML = links;
+  $('#mobileMenu').innerHTML = SECTIONS.map(s =>
+    `<a href="#${s.id}" data-sec="${s.id}"><small>${s.index}</small>${s.label}</a>`).join('');
+}
+
+/* ── Master render ────────────────────────────────────────── */
+function renderPublic() {
+  renderHero();
+  renderIdentity();
+  renderSkills();
+  renderWorks();
+  renderVault();
+  renderLab();
+  renderSocial();
+  renderResume();
+  renderContactMeta();
+  observeReveals();
+}
+
+/* ════════════════════════════════════════════════════════════
+   5. INTERACTIONS
+   ════════════════════════════════════════════════════════════ */
+
+/* Reveal on scroll */
+let revealObserver = null;
+function observeReveals() {
+  if (REDUCED) { $$('.reveal').forEach(el => el.classList.add('in')); return; }
+  if (!revealObserver) {
+    revealObserver = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) { e.target.classList.add('in'); revealObserver.unobserve(e.target); }
+      });
+    }, { threshold: 0.12, rootMargin: '0px 0px -60px 0px' });
+  }
+  $$('.reveal:not(.in)').forEach(el => revealObserver.observe(el));
+}
+
+/* Nav scroll state + active section */
+function initScrollSpy() {
+  const nav = $('#nav');
+  const onScroll = () => {
+    nav.classList.toggle('solid', window.scrollY > 40);
+    let current = '';
+    SECTIONS.forEach(s => {
+      const el = document.getElementById(s.id);
+      if (el && el.getBoundingClientRect().top <= 140) current = s.id;
+    });
+    $$('#navLinks a, #mobileMenu a').forEach(a => {
+      a.classList.toggle('active', a.dataset.sec === current);
+    });
+  };
+  window.addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
+}
+
+/* Mobile menu */
+function initMobileMenu() {
+  const burger = $('#burger'), menu = $('#mobileMenu');
+  const toggle = (open) => {
+    burger.classList.toggle('open', open);
+    menu.classList.toggle('open', open);
+    burger.setAttribute('aria-expanded', String(open));
+  };
+  burger.addEventListener('click', () => toggle(!menu.classList.contains('open')));
+  menu.addEventListener('click', (e) => { if (e.target.closest('a')) toggle(false); });
+  window.addEventListener('hashchange', () => toggle(false));
+}
+
+/* Magnetic buttons */
+function initMagnetic() {
+  if (REDUCED || window.matchMedia('(hover: none)').matches) return;
+  $$('[data-magnetic]').forEach(el => {
+    el.addEventListener('mousemove', (e) => {
+      const r = el.getBoundingClientRect();
+      const x = (e.clientX - r.left - r.width / 2) / r.width;
+      const y = (e.clientY - r.top - r.height / 2) / r.height;
+      el.style.transform = `translate(${x * 7}px, ${y * 5}px)`;
+    });
+    el.addEventListener('mouseleave', () => { el.style.transform = ''; });
+  });
+}
+
+/* Card tilt */
+function initTilt() {
+  if (REDUCED || window.matchMedia('(hover: none)').matches) return;
+  $$('[data-tilt]').forEach(el => {
+    el.addEventListener('mousemove', (e) => {
+      const r = el.getBoundingClientRect();
+      const x = (e.clientX - r.left) / r.width - 0.5;
+      const y = (e.clientY - r.top) / r.height - 0.5;
+      el.style.transform = `perspective(1100px) rotateY(${x * 6}deg) rotateX(${-y * 6}deg)`;
+      el.style.transition = 'transform .12s linear';
+    });
+    el.addEventListener('mouseleave', () => {
+      el.style.transition = 'transform .8s cubic-bezier(.22,.61,.36,1)';
+      el.style.transform = '';
+    });
+  });
+}
+
+/* Cursor glow */
+function initCursor() {
+  if (REDUCED || window.matchMedia('(hover: none)').matches) return;
+  const g = $('#cursor-glow');
+  let tx = 0, ty = 0, cx = 0, cy = 0, raf = null;
+  document.addEventListener('mousemove', (e) => {
+    tx = e.clientX; ty = e.clientY;
+    g.style.opacity = '1';
+    if (!raf) raf = requestAnimationFrame(loop);
+  });
+  document.addEventListener('mouseleave', () => { g.style.opacity = '0'; });
+  function loop() {
+    cx += (tx - cx) * 0.09;
+    cy += (ty - cy) * 0.09;
+    g.style.left = cx + 'px';
+    g.style.top = cy + 'px';
+    raf = (Math.abs(tx - cx) > 0.5 || Math.abs(ty - cy) > 0.5) ? requestAnimationFrame(loop) : null;
+  }
+}
+
+/* Ambient particles */
+function initParticles() {
+  if (REDUCED) return;
+  const canvas = $('#particles');
+  const ctx = canvas.getContext('2d');
+  let w, h, parts = [], dpr = Math.min(window.devicePixelRatio || 1, 2);
+
+  function resize() {
+    w = canvas.width = innerWidth * dpr;
+    h = canvas.height = innerHeight * dpr;
+    canvas.style.width = innerWidth + 'px';
+    canvas.style.height = innerHeight + 'px';
+    const count = Math.min(52, Math.max(20, Math.floor(innerWidth / 34)));
+    parts = Array.from({ length: count }, () => ({
+      x: Math.random() * w, y: Math.random() * h,
+      r: (Math.random() * 1.4 + 0.4) * dpr,
+      vx: (Math.random() - 0.5) * 0.11 * dpr,
+      vy: (Math.random() - 0.5) * 0.11 * dpr,
+      a: Math.random() * 0.4 + 0.12
+    }));
+  }
+
+  function draw() {
+    ctx.clearRect(0, 0, w, h);
+    parts.forEach(p => {
+      p.x += p.vx; p.y += p.vy;
+      if (p.x < 0) p.x = w; if (p.x > w) p.x = 0;
+      if (p.y < 0) p.y = h; if (p.y > h) p.y = 0;
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+      ctx.fillStyle = `rgba(200,164,92,${p.a})`;
+      ctx.fill();
+    });
+    requestAnimationFrame(draw);
+  }
+  resize();
+  window.addEventListener('resize', resize);
+  draw();
+}
+
+/* ════════════════════════════════════════════════════════════
+   6. INTRO SEQUENCE
+   ════════════════════════════════════════════════════════════ */
+const BOOT_LINES = [
+  'Initializing identity...',
+  'Loading digital works...',
+  'Loading skills...',
+  'Opening laboratory...',
+  'Loading achievements...',
+  'SYSTEM READY'
+];
+
+function runIntro() {
+  const intro = $('#intro');
+  const log = $('#introLog');
+  const body = document.body;
+
+  const finish = () => {
+    if (intro.classList.contains('done')) return;
+    intro.classList.add('done');
+    body.classList.remove('locked');
+    setTimeout(() => { intro.style.display = 'none'; }, 950);
+    initMagnetic(); initTilt(); initCursor(); initParticles();
+    observeReveals();
+  };
+
+  $('#skipIntro').addEventListener('click', finish);
+
+  if (REDUCED) {
+    setTimeout(finish, 300);
+    return;
+  }
+
+  let i = 0;
+  const step = () => {
+    if (i >= BOOT_LINES.length) { setTimeout(finish, 620); return; }
+    const line = document.createElement('div');
+    const isReady = BOOT_LINES[i] === 'SYSTEM READY';
+    line.className = isReady ? 'ok' : '';
+    line.textContent = isReady ? '▸ SYSTEM READY' : '▸ ' + BOOT_LINES[i];
+    log.appendChild(line);
+    requestAnimationFrame(() => line.classList.add('on'));
+    i++;
+    setTimeout(step, isReady ? 500 : 330);
+  };
+  setTimeout(step, 900);
+}
+
+/* ════════════════════════════════════════════════════════════
+   7. CASE STUDY
+   ════════════════════════════════════════════════════════════ */
+const Case = {
+  current: null,
+
+  open(id) {
+    const p = Store.get('projects', id);
+    if (!p) return;
+    this.current = id;
+
+    const c = p.case || {};
+    const list = Store.list('projects').sort((a, b) => (a.order ?? 99) - (b.order ?? 99));
+    const idx = list.findIndex(x => x.id === id);
+    const next = list[(idx + 1) % list.length];
+    const prev = list[(idx - 1 + list.length) % list.length];
+
+    const sections = [
+      ['OVERVIEW', c.overview || p.full || p.short],
+      ['THE PROBLEM', c.problem],
+      ['THE IDEA', c.idea],
+      ['THE SOLUTION', c.solution],
+      ['HOW IT WORKS', c.how]
+    ].filter(([, v]) => v);
+
+    const features = (c.features || []).filter(Boolean);
+    const images = (p.images || []).filter(Boolean);
+
+    $('#caseIdx').textContent = `CASE ${String(idx + 1).padStart(2, '0')} / ${String(list.length).padStart(2, '0')}`;
+
+    $('#caseBody').innerHTML = `
+      <div class="case-hero">
+        <div class="container">
+          <div class="eyebrow">${esc(p.category || 'PROJECT')}</div>
+          <h1>${esc(p.title)}</h1>
+          <p class="lede">${esc(p.short || '')}</p>
+          ${p.cover ? `<div class="case-cover"><img src="${esc(p.cover)}" alt="${esc(p.title)} cover" /></div>` : ''}
+        </div>
+      </div>
+
+      <div class="container">
+        <div class="case-layout">
+          <div>
+            ${sections.map(([t, v]) => `
+              <section class="case-sec">
+                <h2>${esc(t)}</h2>
+                ${String(v).split(/\n\s*\n/).filter(Boolean).map(par => `<p>${esc(par)}</p>`).join('')}
+              </section>`).join('')}
+
+            ${features.length ? `
+              <section class="case-sec">
+                <h2>FEATURES</h2>
+                <ul>${features.map(f => `<li>${esc(f)}</li>`).join('')}</ul>
+              </section>` : ''}
+
+            ${images.length ? `
+              <section class="case-sec">
+                <h2>SCREENSHOTS</h2>
+                <div class="shots">
+                  ${images.map((src, i) => `<img src="${esc(src)}" alt="${esc(p.title)} screenshot ${i + 1}" loading="lazy" />`).join('')}
+                </div>
+              </section>` : ''}
+
+            ${p.video ? `
+              <section class="case-sec">
+                <h2>DEMO</h2>
+                <a class="btn ghost" href="${esc(p.video)}" target="_blank" rel="noopener"><span>${icon('play')} WATCH DEMO</span></a>
+              </section>` : ''}
+          </div>
+
+          <aside class="case-aside">
+            <div class="case-aside-row">
+              <dt>Category</dt>
+              <dd>${esc(p.category || '—')}</dd>
+            </div>
+            <div class="case-aside-row">
+              <dt>Tech Stack</dt>
+              <dd>${(p.tech && p.tech.length)
+                ? `<div class="tech-row">${p.tech.map(t => `<span class="tech">${esc(t)}</span>`).join('')}</div>`
+                : '—'}</dd>
+            </div>
+            <div class="case-aside-row">
+              <dt>Source</dt>
+              <dd>${p.github
+                ? `<a href="${esc(p.github)}" target="_blank" rel="noopener" style="color:var(--gold)">GitHub repository ↗</a>`
+                : '—'}</dd>
+            </div>
+            <div class="case-aside-row">
+              <dt>Live Demo</dt>
+              <dd>${p.demo
+                ? `<a href="${esc(p.demo)}" target="_blank" rel="noopener" style="color:var(--gold)">Open live site ↗</a>`
+                : '—'}</dd>
+            </div>
+            ${p.featured ? `<div class="case-aside-row"><dt>Status</dt><dd style="color:var(--gold-2)">Featured work</dd></div>` : ''}
+          </aside>
+        </div>
+
+        <div class="case-nav">
+          <button class="btn ghost" data-goto="${esc(prev.id)}"><span>← ${esc(prev.title)}</span></button>
+          <button class="btn ghost" data-goto="${esc(next.id)}"><span>${esc(next.title)} →</span></button>
+        </div>
+      </div>`;
+
+    const el = $('#case');
+    el.classList.add('open');
+    el.scrollTop = 0;
+    document.body.classList.add('locked');
+    $('#caseBack').focus();
+  },
+
+  close() {
+    $('#case').classList.remove('open');
+    document.body.classList.remove('locked');
+    this.current = null;
+  }
+};
+
+/* ════════════════════════════════════════════════════════════
+   8. CONTACT
+   ════════════════════════════════════════════════════════════ */
+function initContact() {
+  const form = $('#contactForm');
+  const state = $('#formState');
+  const btn = $('#contactSubmit');
+
+  const showErr = (name, msg) => {
+    const field = form.querySelector(`[name="${name}"]`);
+    const box = form.querySelector(`[data-err="${name}"]`);
+    if (field) field.classList.toggle('err', !!msg);
+    if (box) box.textContent = msg || '';
+    return !msg;
+  };
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const fd = new FormData(form);
+    const name = String(fd.get('name') || '').trim();
+    const email = String(fd.get('email') || '').trim();
+    const message = String(fd.get('message') || '').trim();
+
+    let ok = true;
+    ok = showErr('name', name.length < 2 ? 'Please enter your name.' : '') && ok;
+    ok = showErr('email', !/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email) ? 'Please enter a valid email address.' : '') && ok;
+    ok = showErr('message', message.length < 10 ? 'Please write at least 10 characters.' : '') && ok;
+
+    if (!ok) {
+      state.className = 'form-state bad show';
+      state.innerHTML = `${icon('alert')} Please correct the highlighted fields.`;
+      return;
+    }
+
+    // Loading state
+    btn.disabled = true;
+    btn.innerHTML = `<span><i class="spinner" style="display:inline-block;vertical-align:-2px;margin-right:8px"></i>SENDING…</span>`;
+    state.className = 'form-state show';
+    state.innerHTML = `${icon('refresh')} Transmitting message…`;
+
+    await new Promise(r => setTimeout(r, 750));
+
+    try {
+      const entry = {
+        id: uid('msg'),
+        name, email, message,
+        received: new Date().toISOString(),
+        read: false
+      };
+      if (!Array.isArray(DB.inbox)) DB.inbox = [];
+      DB.inbox.unshift(entry);
+      const saved = Store.save();
+
+      if (Cloud.ready) {
+        await Cloud.upsert('messages', [{
+          id: entry.id, name, email, message, received: entry.received, read: false
+        }]);
+      }
+
+      if (!saved) throw new Error('Storage unavailable');
+
+      state.className = 'form-state ok show';
+      state.innerHTML = `${icon('check')} Message received. It's now in the Control Room inbox — I'll get back to you.`;
+      form.reset();
+      $$('.err-msg', form).forEach(el => el.textContent = '');
+      $$('.input, .textarea', form).forEach(el => el.classList.remove('err'));
+    } catch (err) {
+      state.className = 'form-state bad show';
+      state.innerHTML = `${icon('alert')} Something went wrong: ${esc(err.message)}. Please try again.`;
+    } finally {
+      btn.disabled = false;
+      btn.innerHTML = '<span>SEND MESSAGE</span>';
+    }
+  });
+
+  // Clear errors on input
+  form.addEventListener('input', (e) => {
+    const n = e.target.name;
+    if (!n) return;
+    e.target.classList.remove('err');
+    const box = form.querySelector(`[data-err="${n}"]`);
+    if (box) box.textContent = '';
+  });
+}
+
+/* ════════════════════════════════════════════════════════════
+   9. ADMIN — ROYAL CONTROL ROOM
+   ════════════════════════════════════════════════════════════ */
+const ADMIN_MODULES = [
+  { key: 'dashboard',    label: 'Dashboard',    icon: 'layout',  hint: 'Overview of your digital estate' },
+  { key: 'profile',      label: 'Profile',      icon: 'user',    hint: 'Name, bio, avatar, status' },
+  { key: 'homepage',     label: 'Homepage',     icon: 'globe',   hint: 'Hero copy and calls to action' },
+  { key: 'skills',       label: 'Skills',       icon: 'cpu',     hint: 'The skill arsenal' },
+  { key: 'projects',     label: 'Projects',     icon: 'layers',  hint: 'The works and their case studies' },
+  { key: 'certificates', label: 'Certificates', icon: 'award',   hint: 'The vault — credentials' },
+  { key: 'achievements', label: 'Achievements', icon: 'rocket',  hint: 'The vault — achievements' },
+  { key: 'lab',          label: 'Digital Lab',  icon: 'flask',   hint: 'Experiments and prototypes' },
+  { key: 'socials',      label: 'Social Links', icon: 'link',    hint: 'The social court' },
+  { key: 'resume',       label: 'Resume',       icon: 'file',    hint: 'Upload and replace your resume' },
+  { key: 'inbox',        label: 'Inbox',        icon: 'inbox',   hint: 'Messages from the contact form' },
+  { key: 'settings',     label: 'Settings',     icon: 'settings', hint: 'Security, data and cloud' }
+];
+
+const Admin = {
+  authed: false,
+  module: 'dashboard',
+
+  async open() {
+    $('#admin').classList.add('open');
+    document.body.classList.add('locked');
+    if (this.authed) { this.renderShell(); }
+    else { this.renderGate(); }
+  },
+
+  close() {
+    $('#admin').classList.remove('open');
+    document.body.classList.remove('locked');
+  },
+
+  /* ── Authentication gate ──────────────────────────────── */
+  renderGate() {
+    const gate = $('#adminGate');
+    $('#adminShell').style.display = 'none';
+    const hasPass = !!DB.settings.passcodeHash;
+
+    gate.className = 'gate';
+    gate.innerHTML = `
+      <div class="gate-box">
+        <svg class="em" viewBox="0 0 120 120" fill="none" aria-hidden="true">
+          <path d="M60 12 L108 60 L60 108 L12 60 Z" stroke="#c8a45c" stroke-width="1"/>
+          <path d="M60 34 L86 60 L60 86 L34 60 Z" stroke="#c8a45c" stroke-width="1" opacity=".45"/>
+          <text x="60" y="72" text-anchor="middle" font-family="Cormorant Garamond, Georgia, serif" font-size="32" fill="#e8d7ab">S</text>
+        </svg>
+        <h1>${hasPass ? 'ROYAL CONTROL ROOM' : 'INITIALIZE CONTROL KEY'}</h1>
+        <p>${hasPass
+          ? 'Enter your control key to manage the portfolio.'
+          : 'No control key has been set on this device. Create one now — it is hashed and stored locally, never in plain text.'}</p>
+
+        <form id="gateForm" style="text-align:left">
+          <div class="form-field">
+            <label for="gk">${hasPass ? 'Control key' : 'New control key'}</label>
+            <input class="input" id="gk" type="password" autocomplete="${hasPass ? 'current-password' : 'new-password'}"
+                   placeholder="${hasPass ? '••••••••' : 'Minimum 6 characters'}" />
+            <div class="err-msg" data-gate-err></div>
+          </div>
+          ${hasPass ? '' : `
+          <div class="form-field">
+            <label for="gk2">Confirm control key</label>
+            <input class="input" id="gk2" type="password" autocomplete="new-password" placeholder="Repeat key" />
+            <div class="err-msg" data-gate-err2></div>
+          </div>`}
+          <button class="btn" type="submit" style="width:100%;justify-content:center;margin-top:6px">
+            <span>${hasPass ? 'ENTER CONTROL ROOM' : 'CREATE & ENTER'}</span>
+          </button>
+        </form>
+
+        <button class="btn ghost sm" id="gateBack" style="width:100%;justify-content:center;margin-top:12px">
+          <span>← RETURN TO SITE</span>
+        </button>
+
+        <p style="margin-top:22px;font-size:11.5px;line-height:1.6;color:var(--muted-2)">
+          Local development gate. When Supabase Auth is connected, this is replaced
+          by real email/password authentication and row-level security.
+        </p>
+      </div>`;
+
+    $('#gateBack').addEventListener('click', () => { location.hash = '#/'; });
+
+    $('#gateForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const key = $('#gk').value;
+      const err1 = gate.querySelector('[data-gate-err]');
+
+      if (!hasPass) {
+        const key2 = $('#gk2').value;
+        const err2 = gate.querySelector('[data-gate-err2]');
+        err1.textContent = ''; err2.textContent = '';
+        if (key.length < 6) { err1.textContent = 'Key must be at least 6 characters.'; return; }
+        if (key !== key2) { err2.textContent = 'Keys do not match.'; return; }
+        DB.settings.passcodeHash = await hashStr(key);
+        Store.save();
+        this.grant();
+        toast('CONTROL KEY CREATED');
+        return;
+      }
+
+      const h = await hashStr(key);
+      if (h === DB.settings.passcodeHash) { this.grant(); }
+      else {
+        err1.textContent = 'Incorrect control key.';
+        $('#gk').classList.add('err');
+        $('#gk').value = '';
+      }
+    });
+  },
+
+  grant() {
+    this.authed = true;
+    try { sessionStorage.setItem(SESSION_KEY, '1'); } catch (_) {}
+    this.renderShell();
+  },
+
+  logout() {
+    this.authed = false;
+    try { sessionStorage.removeItem(SESSION_KEY); } catch (_) {}
+    this.renderGate();
+    toast('SIGNED OUT');
+  },
+
+  /* ── Shell ────────────────────────────────────────────── */
+  renderShell() {
+    $('#adminGate').innerHTML = '';
+    $('#adminGate').className = '';
+    $('#adminShell').style.display = 'grid';
+
+    const counts = {
+      skills: Store.list('skills').length,
+      projects: Store.list('projects').length,
+      certificates: Store.list('certificates').length,
+      achievements: Store.list('achievements').length,
+      lab: Store.list('lab').length,
+      socials: Store.list('socials').filter(s => s.url).length,
+      inbox: (DB.inbox || []).filter(m => !m.read).length
+    };
+
+    $('#adminNav').innerHTML = ADMIN_MODULES.map(m => `
+      <button data-module="${m.key}" class="${m.key === this.module ? 'active' : ''}">
+        ${icon(m.icon)}
+        <span>${m.label}</span>
+        ${counts[m.key] != null && counts[m.key] > 0 ? `<span class="cnt">${counts[m.key]}</span>` : ''}
+      </button>`).join('');
+
+    this.renderModule();
+  },
+
+  go(module) {
+    this.module = module;
+    $$('#adminNav button').forEach(b => b.classList.toggle('active', b.dataset.module === module));
+    $('#adminSide').classList.remove('open');
+    this.renderModule();
+    $('.admin-main').scrollTop = 0;
+  },
+
+  renderModule() {
+    const mod = ADMIN_MODULES.find(m => m.key === this.module) || ADMIN_MODULES[0];
+    $('#adminTitle').textContent = mod.label;
+    $('#adminHint').textContent = mod.hint;
+    $('#adminTopActions').innerHTML = '';
+
+    const body = $('#adminBody');
+    const fn = this['mod_' + mod.key];
+    body.innerHTML = fn ? fn.call(this) : '<p>Module not found.</p>';
+
+    if (this['after_' + mod.key]) this['after_' + mod.key].call(this);
+  },
+
+  /* ── Dashboard ────────────────────────────────────────── */
+  mod_dashboard() {
+    const stats = [
+      ['Projects', Store.list('projects').length],
+      ['Skills', Store.list('skills').length],
+      ['Certificates', Store.list('certificates').length],
+      ['Achievements', Store.list('achievements').length],
+      ['Lab Entries', Store.list('lab').length],
+      ['Social Links', Store.list('socials').filter(s => s.url).length],
+      ['Messages', (DB.inbox || []).length],
+      ['Unread', (DB.inbox || []).filter(m => !m.read).length]
+    ];
+
+    const recent = Store.list('projects').slice(0, 4);
+    const unread = (DB.inbox || []).filter(m => !m.read).slice(0, 3);
+
+    return `
+      <div class="stats">
+        ${stats.map(([l, v]) => `<div class="stat"><div class="v" data-count="${v}">0</div><div class="l">${esc(l)}</div></div>`).join('')}
+      </div>
+
+      <div class="admin-panel">
+        <h3>Quick actions</h3>
+        <div style="display:flex;gap:10px;flex-wrap:wrap">
+          <button class="btn sm" data-quick="projects"><span>${icon('plus')} NEW PROJECT</span></button>
+          <button class="btn ghost sm" data-quick="skills"><span>${icon('plus')} NEW SKILL</span></button>
+          <button class="btn ghost sm" data-quick="certificates"><span>${icon('upload')} UPLOAD CERTIFICATE</span></button>
+          <button class="btn ghost sm" data-quick="resume"><span>${icon('file')} MANAGE RESUME</span></button>
+        </div>
+      </div>
+
+      <div class="admin-panel">
+        <h3>Your works</h3>
+        ${recent.length ? `<div class="admin-list">
+          ${recent.map(p => `
+            <div class="admin-row">
+              <div class="thumb">${p.cover ? `<img src="${esc(p.cover)}" alt="" />` : icon('layers')}</div>
+              <div class="meta">
+                <div class="t">${esc(p.title)}</div>
+                <div class="s">${esc(p.category || 'UNCATEGORISED')} · ${p.featured ? 'FEATURED' : 'STANDARD'}</div>
+              </div>
+            </div>`).join('')}
+        </div>` : emptyState('layers', 'No projects yet', 'Create your first project from the Projects module.')}
+      </div>
+
+      ${unread.length ? `
+      <div class="admin-panel">
+        <h3>Unread messages</h3>
+        <div class="admin-list">
+          ${unread.map(m => `
+            <div class="admin-row">
+              <div class="thumb">${icon('mail')}</div>
+              <div class="meta">
+                <div class="t">${esc(m.name)} — ${esc(m.email)}</div>
+                <div class="s">${esc(m.message.slice(0, 90))}${m.message.length > 90 ? '…' : ''}</div>
+              </div>
+            </div>`).join('')}
+        </div>
+      </div>` : ''}`;
+  },
+
+  after_dashboard() {
+    $$('#adminBody .stat .v').forEach(el => {
+      const target = Number(el.dataset.count) || 0;
+      if (REDUCED || target === 0) { el.textContent = target; return; }
+      let n = 0;
+      const step = Math.max(1, Math.ceil(target / 24));
+      const t = setInterval(() => {
+        n += step;
+        if (n >= target) { n = target; clearInterval(t); }
+        el.textContent = n;
+      }, 26);
+    });
+
+    $$('#adminBody [data-quick]').forEach(b => {
+      b.addEventListener('click', () => {
+        const key = b.dataset.quick;
+        this.go(key);
+        if (key === 'resume') return;
+        setTimeout(() => {
+          const btn = $('#adminBody [data-add]');
+          if (btn) btn.click();
+        }, 80);
+      });
+    });
+  },
+
+  /* ── Profile ──────────────────────────────────────────── */
+  mod_profile() {
+    const p = DB.profile;
+    return `
+      <form id="profileForm" class="admin-panel">
+        <h3>Identity record</h3>
+        <div class="form-grid">
+          <div class="form-field">
+            <label>Full name</label>
+            <input class="input" name="name" value="${esc(p.name)}" />
+          </div>
+          <div class="form-field">
+            <label>Role / title</label>
+            <input class="input" name="role" value="${esc(p.role)}" />
+          </div>
+          <div class="form-field">
+            <label>Location</label>
+            <input class="input" name="location" value="${esc(p.location)}" />
+          </div>
+          <div class="form-field">
+            <label>Current status</label>
+            <input class="input" name="status" value="${esc(p.status)}" />
+          </div>
+          <div class="form-field full">
+            <label>Short bio (hero paragraph)</label>
+            <textarea class="textarea" name="bio" style="min-height:96px">${esc(p.bio)}</textarea>
+          </div>
+          <div class="form-field full">
+            <label>About text (separate paragraphs with a blank line)</label>
+            <textarea class="textarea" name="about" style="min-height:180px">${esc(p.about)}</textarea>
+          </div>
+          <div class="form-field full">
+            <label>Current focus</label>
+            <textarea class="textarea" name="focus" style="min-height:80px">${esc(p.focus)}</textarea>
+          </div>
+          <div class="form-field full">
+            <label>Personal philosophy</label>
+            <input class="input" name="philosophy" value="${esc(p.philosophy)}" />
+          </div>
+          <div class="form-field full">
+            <label>Profile image</label>
+            <div class="dropzone" data-drop="avatar">
+              ${icon('upload')}
+              <p>Drag &amp; drop an image here, or click to browse</p>
+              <small>JPG, PNG, WEBP · max 4 MB</small>
+            </div>
+            <input type="file" accept="image/*" hidden data-file="avatar" />
+            <div class="previews" id="avatarPreview">
+              ${p.avatar ? `<div class="preview"><img src="${esc(p.avatar)}" alt="" /><button type="button" data-rm-avatar>×</button></div>` : ''}
+            </div>
+            <div class="progress" id="avatarProgress"><i></i></div>
+          </div>
+        </div>
+        <div style="display:flex;gap:12px;margin-top:26px">
+          <button class="btn" type="submit"><span>SAVE PROFILE</span></button>
+          <button class="btn ghost" type="button" data-preview-site><span>PREVIEW SITE</span></button>
+        </div>
+      </form>`;
+  },
+
+  after_profile() {
+    const form = $('#profileForm');
+    let newAvatar = DB.profile.avatar;
+
+    bindDropzone(form.querySelector('[data-drop="avatar"]'), form.querySelector('[data-file="avatar"]'), {
+      accept: 'image/*',
+      onFile: async (file) => {
+        const prog = $('#avatarProgress');
+        prog.classList.add('show');
+        prog.querySelector('i').style.width = '35%';
+        newAvatar = await fileToDataURL(file);
+        prog.querySelector('i').style.width = '100%';
+        setTimeout(() => { prog.classList.remove('show'); prog.querySelector('i').style.width = '0'; }, 400);
+        $('#avatarPreview').innerHTML =
+          `<div class="preview"><img src="${esc(newAvatar)}" alt="" /><button type="button" data-rm-avatar>×</button></div>`;
+      }
+    });
+
+    form.addEventListener('click', (e) => {
+      if (e.target.closest('[data-rm-avatar]')) {
+        newAvatar = '';
+        $('#avatarPreview').innerHTML = '';
+      }
+      if (e.target.closest('[data-preview-site]')) {
+        location.hash = '#/';
+        toast('PREVIEW — remember to save your changes');
+      }
+    });
+
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const fd = new FormData(form);
+      ['name', 'role', 'location', 'status', 'bio', 'about', 'focus', 'philosophy'].forEach(k => {
+        DB.profile[k] = String(fd.get(k) || '').trim();
+      });
+      DB.profile.avatar = newAvatar;
+      Store.save();
+      renderPublic();
+      toast('PROFILE SAVED');
+    });
+  },
+
+  /* ── Homepage ─────────────────────────────────────────── */
+  mod_homepage() {
+    const h = DB.homepage;
+    const featured = Store.list('projects').filter(p => p.featured);
+    return `
+      <form id="homeForm" class="admin-panel">
+        <h3>Hero configuration</h3>
+        <div class="form-grid">
+          <div class="form-field">
+            <label>Hero title</label>
+            <input class="input" name="heroTitle" value="${esc(h.heroTitle)}" />
+          </div>
+          <div class="form-field">
+            <label>Status tag</label>
+            <input class="input" name="heroTag" value="${esc(h.heroTag)}" />
+          </div>
+          <div class="form-field full">
+            <label>Roles (comma separated)</label>
+            <input class="input" name="roles" value="${esc((h.roles || []).join(', '))}" />
+          </div>
+          <div class="form-field full">
+            <label>Main statement</label>
+            <textarea class="textarea" name="statement" style="min-height:80px">${esc(h.statement)}</textarea>
+          </div>
+          <div class="form-field full">
+            <label>Hero introduction</label>
+            <textarea class="textarea" name="intro" style="min-height:96px">${esc(h.intro)}</textarea>
+          </div>
+          <div class="form-field">
+            <label>Primary CTA</label>
+            <input class="input" name="ctaPrimary" value="${esc(h.ctaPrimary)}" />
+          </div>
+          <div class="form-field">
+            <label>Secondary CTA</label>
+            <input class="input" name="ctaSecondary" value="${esc(h.ctaSecondary)}" />
+          </div>
+          <div class="form-field full">
+            <label>Current focus line</label>
+            <input class="input" name="currentFocus" value="${esc(h.currentFocus)}" />
+          </div>
+        </div>
+        <div style="margin-top:26px">
+          <button class="btn" type="submit"><span>SAVE HOMEPAGE</span></button>
+        </div>
+      </form>
+
+      <div class="admin-panel">
+        <h3>Featured projects (${featured.length})</h3>
+        <p style="color:var(--muted);font-size:13.5px;margin:0 0 18px">
+          Toggle "Featured" on any project in the Projects module. Featured projects appear first and span two columns.
+        </p>
+        ${featured.length ? `<div class="admin-list">
+          ${featured.map(p => `
+            <div class="admin-row">
+              <div class="thumb">${p.cover ? `<img src="${esc(p.cover)}" alt="" />` : icon('layers')}</div>
+              <div class="meta"><div class="t">${esc(p.title)}</div><div class="s">ORDER ${p.order ?? '—'}</div></div>
+            </div>`).join('')}
+        </div>` : '<p style="color:var(--muted-2);font-size:13px;margin:0">No featured projects yet.</p>'}
+      </div>`;
+  },
+
+  after_homepage() {
+    $('#homeForm').addEventListener('submit', (e) => {
+      e.preventDefault();
+      const fd = new FormData(e.target);
+      DB.homepage.heroTitle = String(fd.get('heroTitle') || '').trim();
+      DB.homepage.heroTag = String(fd.get('heroTag') || '').trim();
+      DB.homepage.roles = String(fd.get('roles') || '').split(',').map(s => s.trim()).filter(Boolean);
+      DB.homepage.statement = String(fd.get('statement') || '').trim();
+      DB.homepage.intro = String(fd.get('intro') || '').trim();
+      DB.homepage.ctaPrimary = String(fd.get('ctaPrimary') || '').trim();
+      DB.homepage.ctaSecondary = String(fd.get('ctaSecondary') || '').trim();
+      DB.homepage.currentFocus = String(fd.get('currentFocus') || '').trim();
+      Store.save();
+      renderPublic();
+      toast('HOMEPAGE SAVED');
+    });
+  },
+
+  /* ── Generic list module renderer ─────────────────────── */
+  listModule(col, title, subtitle, rowsFn, emptyMsg) {
+    const items = Store.list(col);
+    return `
+      <div class="admin-toolbar">
+        <div style="font-family:var(--mono);font-size:10.5px;letter-spacing:.14em;color:var(--muted-2)">
+          ${items.length} ENTR${items.length === 1 ? 'Y' : 'IES'} · ${esc(subtitle)}
+        </div>
+        <button class="btn sm" data-add><span>${icon('plus')} ADD</span></button>
+      </div>
+      ${items.length
+        ? `<div class="admin-list">${items.map(rowsFn).join('')}</div>`
+        : emptyState('layers', emptyMsg, 'Click <code>ADD</code> to create your first entry.')}`;
+  },
+
+  row(col, item, title, subtitle, thumb) {
+    return `
+      <div class="admin-row">
+        <div class="thumb">${thumb || icon('diamond')}</div>
+        <div class="meta">
+          <div class="t">${esc(title)}</div>
+          <div class="s">${esc(subtitle)}</div>
+        </div>
+        <div class="acts">
+          <button class="mini" data-edit="${esc(item.id)}" aria-label="Edit">${icon('edit')}</button>
+          <button class="mini del" data-del="${esc(item.id)}" aria-label="Delete">${icon('trash')}</button>
+        </div>
+      </div>`;
+  },
+
+  bindList(col, colLabel, editorFn, renderer) {
+    const body = $('#adminBody');
+    body.addEventListener('click', async (e) => {
+      const addBtn = e.target.closest('[data-add]');
+      const editBtn = e.target.closest('[data-edit]');
+      const delBtn = e.target.closest('[data-del]');
+
+      if (addBtn) {
+        editorFn.call(this, null);
+      } else if (editBtn) {
+        const item = Store.get(col, editBtn.dataset.edit);
+        if (item) editorFn.call(this, item);
+      } else if (delBtn) {
+        const id = delBtn.dataset.del;
+        const item = Store.get(col, id);
+        if (!item) return;
+        if (confirm(`Delete "${item.title || item.name || item.platform || id}"? This cannot be undone.`)) {
+          Store.remove(col, id);
+          if (Cloud.ready) Cloud.remove(col === 'lab' ? 'lab_entries' : col, id);
+          renderer.call(this);
+          renderPublic();
+          this.renderShell();
+          toast('DELETED');
+        }
+      }
+    });
+  },
+
+  /* ── Skills ───────────────────────────────────────────── */
+  mod_skills() {
+    const items = Store.list('skills').sort((a, b) => (a.order ?? 99) - (b.order ?? 99));
+    return `
+      <div class="admin-toolbar">
+        <div style="font-family:var(--mono);font-size:10.5px;letter-spacing:.14em;color:var(--muted-2)">
+          ${items.length} SKILL${items.length === 1 ? '' : 'S'} IN THE ARSENAL
+        </div>
+        <button class="btn sm" data-add><span>${icon('plus')} ADD SKILL</span></button>
+      </div>
+      ${items.length ? `<div class="admin-list">
+        ${items.map(s => this.row('skills', s, s.name,
+          `${(s.category || 'UNCATEGORISED').toUpperCase()} · ORDER ${s.order ?? '—'}${s.level ? ' · LEVEL ' + s.level : ''}`,
+          icon(s.icon))).join('')}
+      </div>` : emptyState('cpu', 'The arsenal is empty', 'Click <code>ADD SKILL</code> to start building your skill list.')}`;
+  },
+
+  after_skills() {
+    this.bindList('skills', 'Skill', this.skillEditor, this.mod_skills);
+  },
+
+  skillEditor(item) {
+    const isNew = !item;
+    const s = item || { id: uid('sk'), name: '', category: '', description: '', icon: 'code', level: '', order: Store.list('skills').length + 1 };
+    const cats = Array.from(new Set(Store.list('skills').map(x => x.category).filter(Boolean)));
+
+    openModal(isNew ? 'Add skill' : 'Edit skill', `
+      <div class="form-grid">
+        <div class="form-field">
+          <label>Skill name *</label>
+          <input class="input" name="name" value="${esc(s.name)}" placeholder="e.g. Python" />
+        </div>
+        <div class="form-field">
+          <label>Category</label>
+          <input class="input" name="category" value="${esc(s.category)}" list="catList" placeholder="e.g. Programming" />
+          <datalist id="catList">${cats.map(c => `<option value="${esc(c)}"></option>`).join('')}</datalist>
+        </div>
+        <div class="form-field full">
+          <label>Description</label>
+          <textarea class="textarea" name="description" style="min-height:80px">${esc(s.description)}</textarea>
+        </div>
+        <div class="form-field">
+          <label>Icon</label>
+          <select class="select" name="icon">
+            ${ICON_KEYS.map(k => `<option value="${esc(k)}" ${k === s.icon ? 'selected' : ''}>${esc(k)}</option>`).join('')}
+          </select>
+        </div>
+        <div class="form-field">
+          <label>Level (0–100, optional)</label>
+          <input class="input" name="level" type="number" min="0" max="100" value="${esc(s.level ?? '')}" placeholder="Leave empty to hide" />
+        </div>
+        <div class="form-field">
+          <label>Display order</label>
+          <input class="input" name="order" type="number" value="${esc(s.order ?? 1)}" />
+        </div>
+      </div>`, async (fd) => {
+        const name = String(fd.get('name') || '').trim();
+        if (!name) { toast('NAME IS REQUIRED'); return false; }
+        const lvl = String(fd.get('level') || '').trim();
+        Store.upsert('skills', {
+          id: s.id,
+          name,
+          category: String(fd.get('category') || '').trim(),
+          description: String(fd.get('description') || '').trim(),
+          icon: String(fd.get('icon') || 'code'),
+          level: lvl === '' ? null : Math.max(0, Math.min(100, Number(lvl))),
+          order: Number(fd.get('order')) || 1
+        });
+        if (Cloud.ready) Cloud.upsert('skills', [Store.get('skills', s.id)]);
+        this.mod_skills_afterSave();
+        return true;
+      });
+  },
+
+  mod_skills_afterSave() {
+    $('#adminBody').innerHTML = this.mod_skills();
+    renderPublic();
+    this.renderShell();
+    toast('SKILL SAVED');
+  },
+
+  /* ── Projects ─────────────────────────────────────────── */
+  mod_projects() {
+    const items = Store.list('projects').sort((a, b) => (a.order ?? 99) - (b.order ?? 99));
+    return `
+      <div class="admin-toolbar">
+        <div style="font-family:var(--mono);font-size:10.5px;letter-spacing:.14em;color:var(--muted-2)">
+          ${items.length} PROJECT${items.length === 1 ? '' : 'S'}
+        </div>
+        <button class="btn sm" data-add><span>${icon('plus')} ADD PROJECT</span></button>
+      </div>
+      ${items.length ? `<div class="admin-list">
+        ${items.map(p => this.row('projects', p, p.title,
+          `${(p.category || 'UNCATEGORISED').toUpperCase()} · ${(p.tech || []).length} TECHS · ORDER ${p.order ?? '—'}${p.featured ? ' · FEATURED' : ''}`,
+          p.cover ? `<img src="${esc(p.cover)}" alt="" />` : icon('layers'))).join('')}
+      </div>` : emptyState('layers', 'No projects yet', 'Click <code>ADD PROJECT</code> to create your first case study.')}`;
+  },
+
+  after_projects() {
+    this.bindList('projects', 'Project', this.projectEditor, this.mod_projects);
+  },
+
+  projectEditor(item) {
+    const isNew = !item;
+    const c = (item && item.case) || {};
+    const p = item || {
+      id: uid('pr'), title: '', category: '', short: '', full: '',
+      cover: '', images: [], video: '', github: '', demo: '',
+      tech: [], featured: false, order: Store.list('projects').length + 1, case: {}
+    };
+
+    let cover = p.cover;
+    let images = (p.images || []).slice();
+
+    openModal(isNew ? 'Add project' : 'Edit project', `
+      <div class="form-grid">
+        <div class="form-field">
+          <label>Title *</label>
+          <input class="input" name="title" value="${esc(p.title)}" placeholder="Project name" />
+        </div>
+        <div class="form-field">
+          <label>Category</label>
+          <input class="input" name="category" value="${esc(p.category)}" placeholder="e.g. AI / Machine Learning" />
+        </div>
+        <div class="form-field full">
+          <label>Short description (card)</label>
+          <textarea class="textarea" name="short" style="min-height:70px">${esc(p.short)}</textarea>
+        </div>
+        <div class="form-field full">
+          <label>Full description</label>
+          <textarea class="textarea" name="full" style="min-height:100px">${esc(p.full)}</textarea>
+        </div>
+        <div class="form-field full">
+          <label>Technologies (comma separated)</label>
+          <input class="input" name="tech" value="${esc((p.tech || []).join(', '))}" placeholder="Python, OpenCV, React" />
+        </div>
+        <div class="form-field">
+          <label>GitHub URL</label>
+          <input class="input" name="github" value="${esc(p.github)}" placeholder="https://github.com/..." />
+        </div>
+        <div class="form-field">
+          <label>Live demo URL</label>
+          <input class="input" name="demo" value="${esc(p.demo)}" placeholder="https://..." />
+        </div>
+        <div class="form-field">
+          <label>Video / demo link</label>
+          <input class="input" name="video" value="${esc(p.video)}" placeholder="https://..." />
+        </div>
+        <div class="form-field">
+          <label>Display order</label>
+          <input class="input" name="order" type="number" value="${esc(p.order ?? 1)}" />
+        </div>
+        <div class="form-field full">
+          <label>Cover image</label>
+          <div class="dropzone" data-drop="cover">${icon('upload')}
+            <p>Drag &amp; drop a cover image, or click to browse</p><small>JPG, PNG, WEBP · max 4 MB</small></div>
+          <input type="file" accept="image/*" hidden data-file="cover" />
+          <div class="previews" id="coverPreview">
+            ${cover ? `<div class="preview"><img src="${esc(cover)}" alt="" /><button type="button" data-rm-cover>×</button></div>` : ''}
+          </div>
+        </div>
+        <div class="form-field full">
+          <label>Screenshots (multiple)</label>
+          <div class="dropzone" data-drop="images">${icon('upload')}
+            <p>Drag &amp; drop one or more screenshots</p><small>JPG, PNG, WEBP · max 4 MB each</small></div>
+          <input type="file" accept="image/*" multiple hidden data-file="images" />
+          <div class="previews" id="imagesPreview"></div>
+        </div>
+        <div class="form-field full">
+          <label class="checks" style="padding:0">
+            <input type="checkbox" name="featured" ${p.featured ? 'checked' : ''} />
+            <span style="font-size:13.5px;color:var(--ink-2)">Featured project (appears first, spans full width)</span>
+          </label>
+        </div>
+      </div>
+
+      <h3 style="font-family:var(--serif);font-size:19px;margin:34px 0 18px;font-weight:400;border-top:1px solid var(--line-soft);padding-top:26px">
+        Case study content
+      </h3>
+      <div class="form-grid">
+        <div class="form-field full"><label>Overview</label>
+          <textarea class="textarea" name="c_overview" style="min-height:80px">${esc(c.overview || '')}</textarea></div>
+        <div class="form-field full"><label>The problem</label>
+          <textarea class="textarea" name="c_problem" style="min-height:80px">${esc(c.problem || '')}</textarea></div>
+        <div class="form-field full"><label>The idea</label>
+          <textarea class="textarea" name="c_idea" style="min-height:80px">${esc(c.idea || '')}</textarea></div>
+        <div class="form-field full"><label>The solution</label>
+          <textarea class="textarea" name="c_solution" style="min-height:80px">${esc(c.solution || '')}</textarea></div>
+        <div class="form-field full"><label>How it works</label>
+          <textarea class="textarea" name="c_how" style="min-height:100px">${esc(c.how || '')}</textarea></div>
+        <div class="form-field full"><label>Features (one per line)</label>
+          <textarea class="textarea" name="c_features" style="min-height:100px">${esc((c.features || []).join('\n'))}</textarea></div>
+      </div>
+    `, async (fd) => {
+      const title = String(fd.get('title') || '').trim();
+      if (!title) { toast('TITLE IS REQUIRED'); return false; }
+
+      Store.upsert('projects', {
+        id: p.id,
+        title,
+        category: String(fd.get('category') || '').trim(),
+        short: String(fd.get('short') || '').trim(),
+        full: String(fd.get('full') || '').trim(),
+        tech: String(fd.get('tech') || '').split(',').map(s => s.trim()).filter(Boolean),
+        github: String(fd.get('github') || '').trim(),
+        demo: String(fd.get('demo') || '').trim(),
+        video: String(fd.get('video') || '').trim(),
+        order: Number(fd.get('order')) || 1,
+        featured: !!fd.get('featured'),
+        cover,
+        images,
+        case: {
+          overview: String(fd.get('c_overview') || '').trim(),
+          problem: String(fd.get('c_problem') || '').trim(),
+          idea: String(fd.get('c_idea') || '').trim(),
+          solution: String(fd.get('c_solution') || '').trim(),
+          how: String(fd.get('c_how') || '').trim(),
+          features: String(fd.get('c_features') || '').split('\n').map(s => s.trim()).filter(Boolean)
+        }
+      });
+      this.mod_projects_afterSave();
+      return true;
+    });
+
+    /* Attach upload handlers after modal mounts */
+    setTimeout(() => {
+      const modal = $('#modalBox');
+
+      bindDropzone(modal.querySelector('[data-drop="cover"]'), modal.querySelector('[data-file="cover"]'), {
+        accept: 'image/*',
+        onFile: async (file) => {
+          cover = await fileToDataURL(file);
+          modal.querySelector('#coverPreview').innerHTML =
+            `<div class="preview"><img src="${esc(cover)}" alt="" /><button type="button" data-rm-cover>×</button></div>`;
+        }
+      });
+
+      bindDropzone(modal.querySelector('[data-drop="images"]'), modal.querySelector('[data-file="images"]'), {
+        accept: 'image/*', multiple: true,
+        onFiles: async (files) => {
+          for (const f of files) images.push(await fileToDataURL(f));
+          renderImagePreviews(modal);
+        }
+      });
+
+      renderImagePreviews(modal);
+
+      modal.addEventListener('click', (e) => {
+        if (e.target.closest('[data-rm-cover]')) {
+          cover = '';
+          modal.querySelector('#coverPreview').innerHTML = '';
+        }
+        const rmImg = e.target.closest('[data-rm-img]');
+        if (rmImg) {
+          images.splice(Number(rmImg.dataset.rmImg), 1);
+          renderImagePreviews(modal);
+        }
+      });
+
+      function renderImagePreviews(scope) {
+        scope.querySelector('#imagesPreview').innerHTML = images.map((src, i) =>
+          `<div class="preview"><img src="${esc(src)}" alt="" /><button type="button" data-rm-img="${i}">×</button></div>`
+        ).join('');
+      }
+    }, 0);
+  },
+
+  mod_projects_afterSave() {
+    $('#adminBody').innerHTML = this.mod_projects();
+    renderPublic();
+    this.renderShell();
+    toast('PROJECT SAVED');
+  },
+
+  /* ── Certificates ─────────────────────────────────────── */
+  mod_certificates() {
+    const items = Store.list('certificates').sort((a, b) => new Date(b.date || 0) - new Date(a.date || 0));
+    return `
+      <div class="admin-toolbar">
+        <div style="font-family:var(--mono);font-size:10.5px;letter-spacing:.14em;color:var(--muted-2)">
+          ${items.length} CERTIFICATE${items.length === 1 ? '' : 'S'} IN THE VAULT
+        </div>
+        <button class="btn sm" data-add><span>${icon('upload')} UPLOAD CERTIFICATE</span></button>
+      </div>
+      ${items.length ? `<div class="admin-list">
+        ${items.map(c => this.row('certificates', c, c.title,
+          `${(c.org || 'NO ORGANISATION').toUpperCase()} · ${fmtDate(c.date)}`,
+          (c.image || c.file) ? `<img src="${esc(c.image || c.file)}" alt="" />` : icon('award'))).join('')}
+      </div>` : emptyState('award', 'The vault is empty',
+        'Upload your real certificates — images or PDFs are both supported.')}`;
+  },
+
+  after_certificates() {
+    this.bindList('certificates', 'Certificate', this.certEditor, this.mod_certificates);
+  },
+
+  certEditor(item) {
+    const isNew = !item;
+    const c = item || { id: uid('ce'), title: '', org: '', date: '', url: '', description: '', image: '', file: '', type: '' };
+    let fileData = c.file || '';
+    let imageData = c.image || '';
+
+    openModal(isNew ? 'Upload certificate' : 'Edit certificate', `
+      <div class="form-grid">
+        <div class="form-field full">
+          <label>Certificate file (image or PDF) *</label>
+          <div class="dropzone" data-drop="cert">${icon('upload')}
+            <p>Drag &amp; drop your certificate here, or click to browse</p>
+            <small>JPG, PNG, WEBP or PDF · max 8 MB</small></div>
+          <input type="file" accept="image/*,application/pdf" hidden data-file="cert" />
+          <div class="previews" id="certPreview"></div>
+          <div class="progress" id="certProgress"><i></i></div>
+        </div>
+        <div class="form-field">
+          <label>Certificate title *</label>
+          <input class="input" name="title" value="${esc(c.title)}" placeholder="e.g. Machine Learning Specialisation" />
+        </div>
+        <div class="form-field">
+          <label>Issuing organisation</label>
+          <input class="input" name="org" value="${esc(c.org)}" placeholder="e.g. Coursera" />
+        </div>
+        <div class="form-field">
+          <label>Date issued</label>
+          <input class="input" name="date" type="date" value="${esc(c.date)}" />
+        </div>
+        <div class="form-field">
+          <label>Credential URL</label>
+          <input class="input" name="url" value="${esc(c.url)}" placeholder="https://..." />
+        </div>
+        <div class="form-field full">
+          <label>Description</label>
+          <textarea class="textarea" name="description" style="min-height:80px">${esc(c.description)}</textarea>
+        </div>
+      </div>`, async (fd) => {
+        const title = String(fd.get('title') || '').trim();
+        if (!title) { toast('TITLE IS REQUIRED'); return false; }
+        Store.upsert('certificates', {
+          id: c.id,
+          title,
+          org: String(fd.get('org') || '').trim(),
+          date: String(fd.get('date') || '').trim(),
+          url: String(fd.get('url') || '').trim(),
+          description: String(fd.get('description') || '').trim(),
+          file: fileData,
+          image: imageData,
+          type: (fileData || '').startsWith('data:application/pdf') ? 'pdf' : 'image'
+        });
+        this.mod_certs_afterSave();
+        return true;
+      });
+
+    setTimeout(() => {
+      const modal = $('#modalBox');
+      const prev = () => {
+        const src = imageData || fileData;
+        if (!src) { modal.querySelector('#certPreview').innerHTML = ''; return; }
+        modal.querySelector('#certPreview').innerHTML = src.startsWith('data:application/pdf')
+          ? `<div class="preview" style="width:120px;height:88px;display:flex;align-items:center;justify-content:center;color:var(--gold)">${icon('file')}</div>`
+          : `<div class="preview" style="width:120px;height:88px"><img src="${esc(src)}" alt="" /></div>`;
+      };
+      prev();
+
+      bindDropzone(modal.querySelector('[data-drop="cert"]'), modal.querySelector('[data-file="cert"]'), {
+        accept: 'image/*,application/pdf',
+        onFile: async (file) => {
+          const prog = modal.querySelector('#certProgress');
+          prog.classList.add('show');
+          prog.querySelector('i').style.width = '40%';
+          const data = await fileToDataURL(file);
+          prog.querySelector('i').style.width = '100%';
+          fileData = data;
+          if (file.type.startsWith('image/')) imageData = data;
+          setTimeout(() => { prog.classList.remove('show'); prog.querySelector('i').style.width = '0'; }, 400);
+          prev();
+        }
+      });
+    }, 0);
+  },
+
+  mod_certs_afterSave() {
+    $('#adminBody').innerHTML = this.mod_certificates();
+    renderPublic();
+    this.renderShell();
+    toast('CERTIFICATE SAVED');
+  },
+
+  /* ── Achievements ─────────────────────────────────────── */
+  mod_achievements() {
+    const items = Store.list('achievements').sort((a, b) => new Date(b.date || 0) - new Date(a.date || 0));
+    return `
+      <div class="admin-toolbar">
+        <div style="font-family:var(--mono);font-size:10.5px;letter-spacing:.14em;color:var(--muted-2)">
+          ${items.length} ACHIEVEMENT${items.length === 1 ? '' : 'S'} RECORDED
+        </div>
+        <button class="btn sm" data-add><span>${icon('plus')} ADD ACHIEVEMENT</span></button>
+      </div>
+      ${items.length ? `<div class="admin-list">
+        ${items.map(a => this.row('achievements', a, a.title,
+          `${(a.type || 'ACHIEVEMENT').toUpperCase()} · ${fmtDate(a.date)}`,
+          a.image ? `<img src="${esc(a.image)}" alt="" />` : icon('rocket'))).join('')}
+      </div>` : emptyState('rocket', 'No achievements recorded',
+        'Only add real achievements — this build ships with none by default.')}`;
+  },
+
+  after_achievements() {
+    this.bindList('achievements', 'Achievement', this.achEditor, this.mod_achievements);
+  },
+
+  achEditor(item) {
+    const isNew = !item;
+    const a = item || { id: uid('ac'), title: '', description: '', date: '', type: '', image: '', link: '' };
+    let imageData = a.image || '';
+
+    openModal(isNew ? 'Add achievement' : 'Edit achievement', `
+      <div class="form-grid">
+        <div class="form-field">
+          <label>Title *</label>
+          <input class="input" name="title" value="${esc(a.title)}" />
+        </div>
+        <div class="form-field">
+          <label>Type</label>
+          <input class="input" name="type" value="${esc(a.type)}" placeholder="e.g. Award, Competition, Recognition" />
+        </div>
+        <div class="form-field">
+          <label>Date</label>
+          <input class="input" name="date" type="date" value="${esc(a.date)}" />
+        </div>
+        <div class="form-field">
+          <label>Link (optional)</label>
+          <input class="input" name="link" value="${esc(a.link)}" placeholder="https://..." />
+        </div>
+        <div class="form-field full">
+          <label>Description</label>
+          <textarea class="textarea" name="description" style="min-height:90px">${esc(a.description)}</textarea>
+        </div>
+        <div class="form-field full">
+          <label>Image (optional)</label>
+          <div class="dropzone" data-drop="ach">${icon('upload')}
+            <p>Drag &amp; drop an image, or click to browse</p><small>JPG, PNG, WEBP · max 4 MB</small></div>
+          <input type="file" accept="image/*" hidden data-file="ach" />
+          <div class="previews" id="achPreview">
+            ${imageData ? `<div class="preview"><img src="${esc(imageData)}" alt="" /><button type="button" data-rm-ach>×</button></div>` : ''}
+          </div>
+        </div>
+      </div>`, async (fd) => {
+        const title = String(fd.get('title') || '').trim();
+        if (!title) { toast('TITLE IS REQUIRED'); return false; }
+        Store.upsert('achievements', {
+          id: a.id, title,
+          description: String(fd.get('description') || '').trim(),
+          date: String(fd.get('date') || '').trim(),
+          type: String(fd.get('type') || '').trim(),
+          link: String(fd.get('link') || '').trim(),
+          image: imageData
+        });
+        this.mod_ach_afterSave();
+        return true;
+      });
+
+    setTimeout(() => {
+      const modal = $('#modalBox');
+      bindDropzone(modal.querySelector('[data-drop="ach"]'), modal.querySelector('[data-file="ach"]'), {
+        accept: 'image/*',
+        onFile: async (file) => {
+          imageData = await fileToDataURL(file);
+          modal.querySelector('#achPreview').innerHTML =
+            `<div class="preview"><img src="${esc(imageData)}" alt="" /><button type="button" data-rm-ach>×</button></div>`;
+        }
+      });
+      modal.addEventListener('click', (e) => {
+        if (e.target.closest('[data-rm-ach]')) {
+          imageData = '';
+          modal.querySelector('#achPreview').innerHTML = '';
+        }
+      });
+    }, 0);
+  },
+
+  mod_ach_afterSave() {
+    $('#adminBody').innerHTML = this.mod_achievements();
+    renderPublic();
+    this.renderShell();
+    toast('ACHIEVEMENT SAVED');
+  },
+
+  /* ── Lab ──────────────────────────────────────────────── */
+  mod_lab() {
+    const items = Store.list('lab').sort((a, b) => new Date(b.date || 0) - new Date(a.date || 0));
+    return `
+      <div class="admin-toolbar">
+        <div style="font-family:var(--mono);font-size:10.5px;letter-spacing:.14em;color:var(--muted-2)">
+          ${items.length} LAB ENTR${items.length === 1 ? 'Y' : 'IES'}
+        </div>
+        <button class="btn sm" data-add><span>${icon('plus')} NEW ENTRY</span></button>
+      </div>
+      ${items.length ? `<div class="admin-list">
+        ${items.map(l => this.row('lab', l, l.title,
+          `${(l.status || 'IDEA')} · ${(l.type || 'EXPERIMENT').toUpperCase()} · ${fmtDate(l.date)}`,
+          l.image ? `<img src="${esc(l.image)}" alt="" />` : icon('flask'))).join('')}
+      </div>` : emptyState('flask', 'The laboratory is empty', 'Log your first experiment, prototype or idea.')}`;
+  },
+
+  after_lab() {
+    this.bindList('lab', 'Lab entry', this.labEditor, this.mod_lab);
+  },
+
+  labEditor(item) {
+    const isNew = !item;
+    const l = item || { id: uid('lb'), title: '', type: '', description: '', image: '', link: '', status: 'IDEA', date: new Date().toISOString().slice(0, 10) };
+    let imageData = l.image || '';
+
+    openModal(isNew ? 'New lab entry' : 'Edit lab entry', `
+      <div class="form-grid">
+        <div class="form-field">
+          <label>Title *</label>
+          <input class="input" name="title" value="${esc(l.title)}" />
+        </div>
+        <div class="form-field">
+          <label>Type</label>
+          <input class="input" name="type" value="${esc(l.type)}" placeholder="e.g. AI Experiment, Prototype, UI Experiment" />
+        </div>
+        <div class="form-field">
+          <label>Status</label>
+          <select class="select" name="status">
+            ${LAB_STATUSES.map(s => `<option value="${s}" ${s === (l.status || 'IDEA') ? 'selected' : ''}>${s}</option>`).join('')}
+          </select>
+        </div>
+        <div class="form-field">
+          <label>Date</label>
+          <input class="input" name="date" type="date" value="${esc(l.date)}" />
+        </div>
+        <div class="form-field">
+          <label>Link / video (optional)</label>
+          <input class="input" name="link" value="${esc(l.link)}" placeholder="https://..." />
+        </div>
+        <div class="form-field full">
+          <label>Description</label>
+          <textarea class="textarea" name="description" style="min-height:100px">${esc(l.description)}</textarea>
+        </div>
+        <div class="form-field full">
+          <label>Image (optional)</label>
+          <div class="dropzone" data-drop="lab">${icon('upload')}
+            <p>Drag &amp; drop an image, or click to browse</p><small>JPG, PNG, WEBP · max 4 MB</small></div>
+          <input type="file" accept="image/*" hidden data-file="lab" />
+          <div class="previews" id="labPreview">
+            ${imageData ? `<div class="preview"><img src="${esc(imageData)}" alt="" /><button type="button" data-rm-lab>×</button></div>` : ''}
+          </div>
+        </div>
+      </div>`, async (fd) => {
+        const title = String(fd.get('title') || '').trim();
+        if (!title) { toast('TITLE IS REQUIRED'); return false; }
+        Store.upsert('lab', {
+          id: l.id, title,
+          type: String(fd.get('type') || '').trim(),
+          description: String(fd.get('description') || '').trim(),
+          status: String(fd.get('status') || 'IDEA'),
+          date: String(fd.get('date') || '').trim(),
+          link: String(fd.get('link') || '').trim(),
+          image: imageData
+        });
+        this.mod_lab_afterSave();
+        return true;
+      });
+
+    setTimeout(() => {
+      const modal = $('#modalBox');
+      bindDropzone(modal.querySelector('[data-drop="lab"]'), modal.querySelector('[data-file="lab"]'), {
+        accept: 'image/*',
+        onFile: async (file) => {
+          imageData = await fileToDataURL(file);
+          modal.querySelector('#labPreview').innerHTML =
+            `<div class="preview"><img src="${esc(imageData)}" alt="" /><button type="button" data-rm-lab>×</button></div>`;
+        }
+      });
+      modal.addEventListener('click', (e) => {
+        if (e.target.closest('[data-rm-lab]')) {
+          imageData = '';
+          modal.querySelector('#labPreview').innerHTML = '';
+        }
+      });
+    }, 0);
+  },
+
+  mod_lab_afterSave() {
+    $('#adminBody').innerHTML = this.mod_lab();
+    renderPublic();
+    this.renderShell();
+    toast('LAB ENTRY SAVED');
+  },
+
+  /* ── Socials ──────────────────────────────────────────── */
+  mod_socials() {
+    const items = Store.list('socials');
+    return `
+      <div class="admin-toolbar">
+        <div style="font-family:var(--mono);font-size:10.5px;letter-spacing:.14em;color:var(--muted-2)">
+          ${items.filter(s => s.url).length} ACTIVE · ${items.filter(s => !s.url).length} UNCONFIGURED
+        </div>
+        <button class="btn sm" data-add><span>${icon('plus')} ADD LINK</span></button>
+      </div>
+      <div class="admin-panel" style="margin-bottom:22px;border-color:var(--line)">
+        <p style="margin:0;color:var(--muted);font-size:13.5px">
+          Links with an empty URL are hidden from the public site — this build never fabricates profile URLs.
+          Fill these in with your real accounts.
+        </p>
+      </div>
+      ${items.length ? `<div class="admin-list">
+        ${items.map(s => this.row('socials', s, s.label || (PLATFORMS[s.platform] || PLATFORMS.other).label,
+          s.url || 'NOT CONFIGURED — add your real URL',
+          icon((PLATFORMS[s.platform] || PLATFORMS.other).icon))).join('')}
+      </div>` : emptyState('link', 'No social links', 'Add your GitHub, LinkedIn, email and other channels.')}`;
+  },
+
+  after_socials() {
+    this.bindList('socials', 'Social link', this.socialEditor, this.mod_socials);
+  },
+
+  socialEditor(item) {
+    const isNew = !item;
+    const s = item || { id: uid('so'), platform: 'github', label: '', url: '' };
+
+    openModal(isNew ? 'Add social link' : 'Edit social link', `
+      <div class="form-grid">
+        <div class="form-field">
+          <label>Platform</label>
+          <select class="select" name="platform">
+            ${Object.entries(PLATFORMS).map(([k, v]) =>
+              `<option value="${k}" ${k === s.platform ? 'selected' : ''}>${esc(v.label)}</option>`).join('')}
+          </select>
+        </div>
+        <div class="form-field">
+          <label>Custom label (optional)</label>
+          <input class="input" name="label" value="${esc(s.label)}" placeholder="Leave empty to use platform name" />
+        </div>
+        <div class="form-field full">
+          <label>URL *</label>
+          <input class="input" name="url" value="${esc(s.url)}" placeholder="https://github.com/yourhandle  ·  or  your@email.com" />
+          <div class="err-msg" style="font-family:var(--mono);font-size:10px;color:var(--muted-2);margin-top:8px">
+            For email, enter the address — a mailto: link is generated automatically.
+          </div>
+        </div>
+      </div>`, async (fd) => {
+        const url = String(fd.get('url') || '').trim();
+        if (!url) { toast('URL IS REQUIRED'); return false; }
+        Store.upsert('socials', {
+          id: s.id,
+          platform: String(fd.get('platform') || 'other'),
+          label: String(fd.get('label') || '').trim(),
+          url
+        });
+        this.mod_socials_afterSave();
+        return true;
+      });
+  },
+
+  mod_socials_afterSave() {
+    $('#adminBody').innerHTML = this.mod_socials();
+    renderPublic();
+    this.renderShell();
+    toast('LINK SAVED');
+  },
+
+  /* ── Resume ───────────────────────────────────────────── */
+  mod_resume() {
+    const r = DB.resume || {};
+    const has = !!r.file;
+    return `
+      <div class="admin-panel">
+        <h3>Resume file</h3>
+        ${has ? `
+          <div style="display:flex;gap:22px;flex-wrap:wrap;align-items:flex-start;margin-bottom:26px">
+            <div style="width:170px;height:220px;border:1px solid var(--line-soft);overflow:hidden;background:var(--surface);flex:none">
+              ${(r.type || '').includes('pdf')
+                ? `<div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;color:var(--gold)">${icon('file')}</div>`
+                : `<img src="${esc(r.file)}" alt="" style="width:100%;height:100%;object-fit:cover" />`}
+            </div>
+            <div style="flex:1;min-width:220px">
+              <div style="font-size:15px;color:var(--ink);margin-bottom:8px">${esc(r.name || 'Resume')}</div>
+              <div style="font-family:var(--mono);font-size:10.5px;color:var(--muted-2);letter-spacing:.12em;margin-bottom:20px">
+                UPDATED ${esc(fmtDate(r.updated))}
+              </div>
+              <div style="display:flex;gap:10px;flex-wrap:wrap">
+                <a class="btn ghost sm" href="${esc(r.file)}" download="${esc(r.name || 'resume')}"><span>${icon('download')} DOWNLOAD</span></a>
+                <a class="btn ghost sm" href="${esc(r.file)}" target="_blank" rel="noopener"><span>${icon('arrowUR')} VIEW</span></a>
+                <button class="btn danger sm" data-rm-resume><span>${icon('trash')} DELETE</span></button>
+              </div>
+            </div>
+          </div>` : `
+          <p style="color:var(--muted);font-size:13.5px;margin:0 0 22px">
+            No resume uploaded. Upload a PDF or image below — it appears in the public site instantly.
+          </p>`}
+
+        <div class="form-field">
+          <label>${has ? 'Replace resume' : 'Upload resume'}</label>
+          <div class="dropzone" data-drop="resume">${icon('upload')}
+            <p>Drag &amp; drop your resume here, or click to browse</p>
+            <small>PDF, JPG or PNG · max 8 MB</small></div>
+          <input type="file" accept="application/pdf,image/*" hidden data-file="resume" />
+          <div class="progress" id="resumeProgress"><i></i></div>
+        </div>
+      </div>
+
+      <div class="admin-panel">
+        <h3>Display name</h3>
+        <div class="form-field">
+          <label>File display name</label>
+          <input class="input" id="resumeName" value="${esc(r.name || '')}" placeholder="e.g. Sumit_Chavda_Resume.pdf" />
+        </div>
+        <button class="btn sm" data-save-resume-name style="margin-top:6px"><span>SAVE NAME</span></button>
+      </div>`;
+  },
+
+  after_resume() {
+    const body = $('#adminBody');
+
+    bindDropzone(body.querySelector('[data-drop="resume"]'), body.querySelector('[data-file="resume"]'), {
+      accept: 'application/pdf,image/*',
+      onFile: async (file) => {
+        const prog = $('#resumeProgress');
+        prog.classList.add('show');
+        prog.querySelector('i').style.width = '45%';
+        const data = await fileToDataURL(file);
+        prog.querySelector('i').style.width = '100%';
+
+        DB.resume = {
+          file: data,
+          name: DB.resume.name || file.name,
+          type: file.type,
+          updated: new Date().toISOString()
+        };
+        Store.save();
+        if (Cloud.ready) Cloud.upsert('resume', [{
+          id: 'main', file: data, name: DB.resume.name, type: file.type, updated: DB.resume.updated
+        }]);
+
+        setTimeout(() => { prog.classList.remove('show'); prog.querySelector('i').style.width = '0'; }, 400);
+        renderPublic();
+        this.renderModule();
+        this.renderShell();
+        toast('RESUME UPLOADED');
+      }
+    });
+
+    body.addEventListener('click', (e) => {
+      if (e.target.closest('[data-rm-resume]')) {
+        if (!confirm('Delete the resume file?')) return;
+        DB.resume = { file: '', name: '', type: '', updated: '' };
+        Store.save();
+        renderPublic();
+        this.renderModule();
+        toast('RESUME DELETED');
+      }
+      if (e.target.closest('[data-save-resume-name]')) {
+        DB.resume.name = $('#resumeName').value.trim();
+        Store.save();
+        renderPublic();
+        toast('NAME SAVED');
+      }
+    });
+  },
+
+  /* ── Inbox ────────────────────────────────────────────── */
+  mod_inbox() {
+    const items = DB.inbox || [];
+    if (!items.length) {
+      return emptyState('inbox', 'No messages yet',
+        'Messages sent through the contact form land here.');
+    }
+    return `
+      <div class="admin-toolbar">
+        <div style="font-family:var(--mono);font-size:10.5px;letter-spacing:.14em;color:var(--muted-2)">
+          ${items.length} MESSAGE${items.length === 1 ? '' : 'S'} · ${items.filter(m => !m.read).length} UNREAD
+        </div>
+        <button class="btn ghost sm" data-clear-inbox><span>${icon('trash')} CLEAR ALL</span></button>
+      </div>
+      <div class="admin-list">
+        ${items.map(m => `
+          <div class="admin-row" style="align-items:flex-start">
+            <div class="thumb" style="${m.read ? 'opacity:.45' : ''}">${icon('mail')}</div>
+            <div class="meta" style="white-space:normal">
+              <div class="t">${esc(m.name)} — <span style="color:var(--gold)">${esc(m.email)}</span></div>
+              <div class="s" style="white-space:normal;line-height:1.6;margin-top:8px">${esc(m.message)}</div>
+              <div class="s" style="margin-top:8px">${esc(new Date(m.received).toLocaleString())}</div>
+            </div>
+            <div class="acts">
+              <a class="mini" href="mailto:${esc(m.email)}?subject=Re: your message" aria-label="Reply">${icon('mail')}</a>
+              <button class="mini del" data-del-msg="${esc(m.id)}" aria-label="Delete">${icon('trash')}</button>
+            </div>
+          </div>`).join('')}
+      </div>`;
+  },
+
+  after_inbox() {
+    const body = $('#adminBody');
+    body.addEventListener('click', (e) => {
+      const del = e.target.closest('[data-del-msg]');
+      if (del) {
+        DB.inbox = (DB.inbox || []).filter(m => m.id !== del.dataset.delMsg);
+        Store.save();
+        this.renderModule();
+        this.renderShell();
+        return;
+      }
+      if (e.target.closest('[data-clear-inbox]')) {
+        if (!confirm('Delete all messages?')) return;
+        DB.inbox = [];
+        Store.save();
+        this.renderModule();
+        this.renderShell();
+        toast('INBOX CLEARED');
+      }
+    });
+  },
+
+  /* ── Settings ─────────────────────────────────────────── */
+  mod_settings() {
+    const s = DB.settings;
+    const used = (() => {
+      try { return ((localStorage.getItem(DB_KEY) || '').length / 1024 / 1024).toFixed(2); }
+      catch (_) { return '—'; }
+    })();
+
+    return `
+      <div class="admin-panel">
+        <h3>Security</h3>
+        <p style="color:var(--muted);font-size:13.5px;margin:0 0 22px">
+          Your control key is hashed (SHA-256 where available) and stored locally. It is never stored in plain text
+          and never sent anywhere. When Supabase Auth is connected, this gate is replaced by real account authentication.
+        </p>
+        <form id="passForm" class="form-grid">
+          <div class="form-field">
+            <label>Current key</label>
+            <input class="input" name="current" type="password" autocomplete="current-password" />
+          </div>
+          <div class="form-field">
+            <label>New key</label>
+            <input class="input" name="next" type="password" autocomplete="new-password" />
+          </div>
+          <div class="form-field">
+            <label>Confirm new key</label>
+            <input class="input" name="confirm" type="password" autocomplete="new-password" />
+          </div>
+          <div class="form-field full">
+            <button class="btn sm" type="submit"><span>UPDATE CONTROL KEY</span></button>
+          </div>
+        </form>
+      </div>
+
+      <div class="admin-panel">
+        <h3>Supabase connection <span style="font-family:var(--mono);font-size:10px;color:var(--muted-2);letter-spacing:.14em">(OPTIONAL)</span></h3>
+        <p style="color:var(--muted);font-size:13.5px;margin:0 0 22px">
+          Paste your project URL and <strong>anon</strong> key to sync content to Postgres and Storage.
+          The anon key is public by design — protect your data with Supabase row-level security policies.
+          <strong>Never put your service-role key in the browser.</strong>
+          ${Cloud.ready ? '<br><span style="color:var(--gold)">● Connected</span>' : '<br><span style="color:var(--muted-2)">○ Not connected — running on local storage</span>'}
+        </p>
+        <form id="cloudForm" class="form-grid">
+          <div class="form-field">
+            <label>Supabase project URL</label>
+            <input class="input" name="url" value="${esc(s.supabase.url)}" placeholder="https://xxxxx.supabase.co" />
+          </div>
+          <div class="form-field">
+            <label>Supabase anon key</label>
+            <input class="input" name="anonKey" value="${esc(s.supabase.anonKey)}" placeholder="eyJhbGciOi..." />
+          </div>
+          <div class="form-field full" style="display:flex;gap:10px;flex-wrap:wrap">
+            <button class="btn sm" type="submit"><span>SAVE &amp; CONNECT</span></button>
+            <button class="btn ghost sm" type="button" data-cloud-test><span>TEST CONNECTION</span></button>
+          </div>
+        </form>
+        <p style="color:var(--muted-2);font-size:12px;margin:18px 0 0;line-height:1.7">
+          In production, move this configuration to <code style="font-family:var(--mono);color:var(--gold)">.env.local</code>:
+          <code style="font-family:var(--mono);color:var(--gold)">NEXT_PUBLIC_SUPABASE_URL</code> and
+          <code style="font-family:var(--mono);color:var(--gold)">NEXT_PUBLIC_SUPABASE_ANON_KEY</code>.
+          Storing them here is a convenience for this standalone build only.
+        </p>
+      </div>
+
+      <div class="admin-panel">
+        <h3>Data management</h3>
+        <p style="color:var(--muted);font-size:13.5px;margin:0 0 20px">
+          Local storage in use: <strong style="color:var(--gold)">${esc(used)} MB</strong> of approximately 5 MB.
+          Base64-encoded images consume space quickly — for a content-heavy portfolio, connect Supabase Storage.
+        </p>
+        <div style="display:flex;gap:10px;flex-wrap:wrap">
+          <button class="btn ghost sm" data-export><span>${icon('download')} EXPORT JSON</span></button>
+          <button class="btn ghost sm" data-import><span>${icon('upload')} IMPORT JSON</span></button>
+          <button class="btn danger sm" data-reset><span>${icon('refresh')} RESET TO SEED</span></button>
+        </div>
+        <input type="file" accept="application/json" hidden id="importFile" />
+      </div>`;
+  },
+
+  after_settings() {
+    const body = $('#adminBody');
+
+    // Passcode change
+    $('#passForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const fd = new FormData(e.target);
+      const cur = String(fd.get('current') || '');
+      const next = String(fd.get('next') || '');
+      const conf = String(fd.get('confirm') || '');
+      if (next.length < 6) { toast('NEW KEY TOO SHORT (MIN 6)'); return; }
+      if (next !== conf) { toast('NEW KEYS DO NOT MATCH'); return; }
+      if (await hashStr(cur) !== DB.settings.passcodeHash) { toast('CURRENT KEY INCORRECT'); return; }
+      DB.settings.passcodeHash = await hashStr(next);
+      Store.save();
+      e.target.reset();
+      toast('CONTROL KEY UPDATED');
+    });
+
+    // Cloud config
+    $('#cloudForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const fd = new FormData(e.target);
+      DB.settings.supabase.url = String(fd.get('url') || '').trim();
+      DB.settings.supabase.anonKey = String(fd.get('anonKey') || '').trim();
+      Store.save();
+      const ok = await Cloud.init(DB.settings);
+      toast(ok ? 'SUPABASE CONNECTED' : 'SAVED — CONNECTION NOT ESTABLISHED');
+      this.renderModule();
+    });
+
+    body.addEventListener('click', async (e) => {
+      if (e.target.closest('[data-cloud-test]')) {
+        const ok = await Cloud.init(DB.settings);
+        if (!ok) { toast('CONNECTION FAILED — CHECK URL & KEY'); return; }
+        const data = await Cloud.pullAll();
+        toast(data ? 'CONNECTION OK — DATA REACHABLE' : 'CONNECTED BUT PULL FAILED');
+      }
+
+      if (e.target.closest('[data-export]')) {
+        const blob = new Blob([Store.exportJSON()], { type: 'application/json' });
+        const a = document.createElement('a');
+        a.href = URL.createObjectURL(blob);
+        a.download = `sumitexe-backup-${new Date().toISOString().slice(0, 10)}.json`;
+        a.click();
+        URL.revokeObjectURL(a.href);
+        toast('BACKUP EXPORTED');
+      }
+
+      if (e.target.closest('[data-import]')) { $('#importFile').click(); }
+
+      if (e.target.closest('[data-reset]')) {
+        if (!confirm('Reset ALL content to the original seed data? Your changes will be lost.')) return;
+        Store.reset();
+        Object.assign(DB, Store.db);
+        renderPublic();
+        this.renderShell();
+        this.go('dashboard');
+        toast('RESET TO SEED DATA');
+      }
+    });
+
+    $('#importFile').addEventListener('change', async (e) => {
+      const file = e.target.files[0];
+      if (!file) return;
+      try {
+        const text = await file.text();
+        Store.importJSON(text);
+        Object.assign(DB, Store.db);
+        renderPublic();
+        this.renderShell();
+        this.go('dashboard');
+        toast('BACKUP IMPORTED');
+      } catch (err) {
+        toast('IMPORT FAILED — INVALID FILE');
+      }
+      e.target.value = '';
+    });
+  }
+};
+
+/* ════════════════════════════════════════════════════════════
+   UPLOAD HELPERS
+   ════════════════════════════════════════════════════════════ */
+const MAX_IMAGE = 4 * 1024 * 1024;
+const MAX_DOC = 8 * 1024 * 1024;
+
+function bindDropzone(zone, input, opts) {
+  if (!zone || !input) return;
+
+  const handle = (files) => {
+    if (!files || !files.length) return;
+    const list = Array.from(files);
+    for (const f of list) {
+      const isDoc = f.type === 'application/pdf';
+      const limit = isDoc ? MAX_DOC : MAX_IMAGE;
+      if (f.size > limit) {
+        toast(`${f.name} — FILE TOO LARGE (MAX ${isDoc ? '8' : '4'} MB)`);
+        return;
+      }
+      if (!f.type.startsWith('image/') && !isDoc) {
+        toast(`${f.name} — UNSUPPORTED FILE TYPE`);
+        return;
+      }
+    }
+    if (opts.multiple && opts.onFiles) opts.onFiles(list);
+    else if (opts.onFile) opts.onFile(list[0]);
+  };
+
+  zone.addEventListener('click', () => input.click());
+  input.addEventListener('change', (e) => { handle(e.target.files); e.target.value = ''; });
+
+  ['dragenter', 'dragover'].forEach(ev =>
+    zone.addEventListener(ev, (e) => { e.preventDefault(); zone.classList.add('over'); }));
+  ['dragleave', 'drop'].forEach(ev =>
+    zone.addEventListener(ev, (e) => { e.preventDefault(); zone.classList.remove('over'); }));
+  zone.addEventListener('drop', (e) => {
+    if (e.dataTransfer && e.dataTransfer.files) handle(e.dataTransfer.files);
+  });
+}
+
+/* ════════════════════════════════════════════════════════════
+   MODAL
+   ════════════════════════════════════════════════════════════ */
+let modalSubmitHandler = null;
+
+function openModal(title, html, onSubmit) {
+  const modal = $('#modal');
+  const box = $('#modalBox');
+  modalSubmitHandler = onSubmit;
+
+  box.innerHTML = `
+    <div class="modal-head">
+      <h3>${esc(title)}</h3>
+      <button class="mini" data-modal-close aria-label="Close">${icon('x')}</button>
+    </div>
+    <form id="modalForm">
+      ${html}
+      <div class="modal-foot">
+        <button type="button" class="btn ghost sm" data-modal-close><span>CANCEL</span></button>
+        <button type="submit" class="btn sm"><span>SAVE</span></button>
+      </div>
+    </form>`;
+
+  modal.classList.add('open');
+  document.body.classList.add('locked');
+
+  const close = () => {
+    modal.classList.remove('open');
+    document.body.classList.remove('locked');
+    box.innerHTML = '';
+    modalSubmitHandler = null;
+  };
+
+  box.querySelectorAll('[data-modal-close]').forEach(b => b.addEventListener('click', close));
+  modal.addEventListener('click', (e) => { if (e.target === modal) close(); });
+
+  $('#modalForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    if (!modalSubmitHandler) return;
+    const btn = e.target.querySelector('button[type="submit"]');
+    const original = btn.innerHTML;
+    btn.disabled = true;
+    btn.innerHTML = '<span><i class="spinner" style="display:inline-block;vertical-align:-2px;margin-right:8px"></i>SAVING…</span>';
+    try {
+      const result = await modalSubmitHandler(new FormData(e.target));
+      if (result !== false) close();
+      else { btn.disabled = false; btn.innerHTML = original; }
+    } catch (err) {
+      console.error(err);
+      toast('SAVE FAILED — ' + err.message);
+      btn.disabled = false;
+      btn.innerHTML = original;
+    }
+  });
+}
+
+/* ════════════════════════════════════════════════════════════
+   10. ROUTING + BOOT
+   ════════════════════════════════════════════════════════════ */
+function route() {
+  const hash = location.hash || '#/';
+  const isAdmin = hash.startsWith('#/admin');
+
+  if (isAdmin) {
+    Admin.open();
+    $('#shell').style.setProperty('visibility', 'hidden');
+  } else {
+    Admin.close();
+    $('#shell').style.removeProperty('visibility');
+  }
+}
+
+function initEvents() {
+  // Section chip filters
+  $('#skillFilters').addEventListener('click', (e) => {
+    const chip = e.target.closest('[data-cat]');
+    if (!chip) return;
+    skillFilter = chip.dataset.cat;
+    renderSkills();
+    observeReveals();
+  });
+
+  $('#labFilters').addEventListener('click', (e) => {
+    const chip = e.target.closest('[data-lab]');
+    if (!chip) return;
+    labFilter = chip.dataset.lab;
+    renderLab();
+    observeReveals();
+  });
+
+  // Vault tabs
+  $('#vaultTabs').addEventListener('click', (e) => {
+    const tab = e.target.closest('[data-vault]');
+    if (!tab) return;
+    vaultTab = tab.dataset.vault;
+    renderVault();
+    observeReveals();
+  });
+
+  // Project cards → case study
+  $('#worksGrid').addEventListener('click', (e) => {
+    if (e.target.closest('[data-stop]')) return;
+    const card = e.target.closest('[data-project]');
+    if (card) Case.open(card.dataset.project);
+  });
+
+  $('#worksGrid').addEventListener('keydown', (e) => {
+    if (e.key !== 'Enter' && e.key !== ' ') return;
+    const card = e.target.closest('[data-project]');
+    if (card) { e.preventDefault(); Case.open(card.dataset.project); }
+  });
+
+  $('#caseBack').addEventListener('click', () => Case.close());
+
+  $('#caseBody').addEventListener('click', (e) => {
+    const go = e.target.closest('[data-goto]');
+    if (go) { Case.open(go.dataset.goto); }
+  });
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+      if ($('#modal').classList.contains('open')) {
+        $('#modal').classList.remove('open');
+        document.body.classList.remove('locked');
+        $('#modalBox').innerHTML = '';
+      } else if ($('#case').classList.contains('open')) {
+        Case.close();
+      } else if ($('#admin').classList.contains('open') && !$('#modal').classList.contains('open')) {
+        location.hash = '#/';
+      }
+    }
+  });
+
+  // Admin nav
+  $('#adminNav').addEventListener('click', (e) => {
+    const btn = e.target.closest('[data-module]');
+    if (btn) Admin.go(btn.dataset.module);
+  });
+
+  $('#adminBurger').addEventListener('click', () => {
+    $('#adminSide').classList.toggle('open');
+  });
+
+  $('#logoutBtn').addEventListener('click', () => Admin.logout());
+  $('#viewSite').addEventListener('click', () => { location.hash = '#/'; });
+
+  $('#adminLink').addEventListener('click', () => { /* hash handles it */ });
+
+  window.addEventListener('hashchange', route);
+}
+
+function boot() {
+  $('#year').textContent = new Date().getFullYear();
+
+  renderNav();
+  renderPublic();
+  initScrollSpy();
+  initMobileMenu();
+  initContact();
+  initEvents();
+
+  // Restore admin session within the tab
+  try { if (sessionStorage.getItem(SESSION_KEY) === '1') Admin.authed = true; } catch (_) {}
+
+  // Attempt cloud connection (non-blocking)
+  Cloud.init(DB.settings).then(async (ok) => {
+    if (!ok) return;
+    const data = await Cloud.pullAll();
+    if (data && Array.isArray(data.projects) && data.projects.length) {
+      console.info('[SUMIT.EXE] Supabase connected — remote data available.');
+      // Remote hydration is intentionally conservative: the local cache
+      // remains the render source until you explicitly map tables below.
+    }
+  });
+
+  route();
+  runIntro();
+}
+
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', boot);
+} else {
+  boot();
+}
+
+/* ══════════════════════════════════════════════════════════════════════
+   APPENDIX — SUPABASE SQL SCHEMA
+   ----------------------------------------------------------------------
+   Run this in the Supabase SQL editor when you are ready to move off
+   local storage. Every table maps 1:1 to a collection in this app.
+
+   -- ────────────────────────────────────────────────────────────────
+   -- PROFILES (single row)
+   create table profiles (
+     id uuid primary key default gen_random_uuid(),
+     name text, role text, avatar text, location text, status text,
+     bio text, about text, focus text, philosophy text,
+     updated_at timestamptz default now()
+   );
+
+   -- HOMEPAGE SETTINGS (single row)
+   create table homepage_settings (
+     id uuid primary key default gen_random_uuid(),
+     hero_title text, hero_tag text, roles text[], statement text,
+     intro text, cta_primary text, cta_secondary text, current_focus text,
+     updated_at timestamptz default now()
+   );
+
+   -- SKILLS
+   create table skills (
+     id uuid primary key default gen_random_uuid(),
+     name text not null, category text, description text,
+     icon text default 'code', level int, display_order int default 0,
+     created_at timestamptz default now()
+   );
+
+   -- PROJECTS
+   create table projects (
+     id uuid primary key default gen_random_uuid(),
+     title text not null, slug text unique, category text,
+     short_description text, full_description text,
+     cover_image text, video_url text, github_url text, demo_url text,
+     technologies text[], featured boolean default false,
+     display_order int default 0,
+     case_overview text, case_problem text, case_idea text,
+     case_solution text, case_how text, case_features text[],
+     created_at timestamptz default now()
+   );
+
+   -- PROJECT IMAGES
+   create table project_images (
+     id uuid primary key default gen_random_uuid(),
+     project_id uuid references projects(id) on delete cascade,
+     url text not null, display_order int default 0
+   );
+
+   -- CERTIFICATES
+   create table certificates (
+     id uuid primary key default gen_random_uuid(),
+     title text not null, organization text, issue_date date,
+     credential_url text, description text, file_url text,
+     file_type text, created_at timestamptz default now()
+   );
+
+   -- ACHIEVEMENTS
+   create table achievements (
+     id uuid primary key default gen_random_uuid(),
+     title text not null, description text, achievement_date date,
+     type text, image_url text, link_url text,
+     created_at timestamptz default now()
+   );
+
+   -- LAB ENTRIES
+   create table lab_entries (
+     id uuid primary key default gen_random_uuid(),
+     title text not null, type text, description text, image_url text,
+     link_url text, status text default 'IDEA', entry_date date,
+     created_at timestamptz default now()
+   );
+
+   -- SOCIAL LINKS
+   create table social_links (
+     id uuid primary key default gen_random_uuid(),
+     platform text not null, label text, url text not null,
+     display_order int default 0
+   );
+
+   -- RESUME (single row)
+   create table resume (
+     id uuid primary key default gen_random_uuid(),
+     file_url text, file_name text, file_type text,
+     updated_at timestamptz default now()
+   );
+
+   -- MESSAGES (contact form)
+   create table messages (
+     id uuid primary key default gen_random_uuid(),
+     name text not null, email text not null, message text not null,
+     read boolean default false, received_at timestamptz default now()
+   );
+
+   -- ────────────────────────────────────────────────────────────────
+   -- ROW LEVEL SECURITY
+   -- Public (anon) can READ portfolio content, but only authenticated
+   -- admins can write. Messages can be INSERTed by anyone, read by none.
+   -- ────────────────────────────────────────────────────────────────
+   alter table profiles          enable row level security;
+   alter table homepage_settings enable row level security;
+   alter table skills            enable row level security;
+   alter table projects          enable row level security;
+   alter table project_images    enable row level security;
+   alter table certificates      enable row level security;
+   alter table achievements      enable row level security;
+   alter table lab_entries       enable row level security;
+   alter table social_links      enable row level security;
+   alter table resume            enable row level security;
+   alter table messages          enable row level security;
+
+   -- Public read policies
+   create policy "public read" on profiles          for select using (true);
+   create policy "public read" on homepage_settings for select using (true);
+   create policy "public read" on skills            for select using (true);
+   create policy "public read" on projects          for select using (true);
+   create policy "public read" on project_images    for select using (true);
+   create policy "public read" on certificates      for select using (true);
+   create policy "public read" on achievements      for select using (true);
+   create policy "public read" on lab_entries       for select using (true);
+   create policy "public read" on social_links      for select using (true);
+   create policy "public read" on resume            for select using (true);
+
+   -- Authenticated admin write policies
+   create policy "admin write" on skills         for all using (auth.role() = 'authenticated');
+   create policy "admin write" on projects       for all using (auth.role() = 'authenticated');
+   create policy "admin write" on project_images for all using (auth.role() = 'authenticated');
+   create policy "admin write" on certificates   for all using (auth.role() = 'authenticated');
+   create policy "admin write" on achievements   for all using (auth.role() = 'authenticated');
+   create policy "admin write" on lab_entries    for all using (auth.role() = 'authenticated');
+   create policy "admin write" on social_links   for all using (auth.role() = 'authenticated');
+   create policy "admin write" on resume         for all using (auth.role() = 'authenticated');
+   create policy "admin write" on profiles          for all using (auth.role() = 'authenticated');
+   create policy "admin write" on homepage_settings for all using (auth.role() = 'authenticated');
+
+   -- Contact form: anyone can submit, only admins can read
+   create policy "anyone can submit" on messages for insert with check (true);
+   create policy "admin can read"    on messages for select using (auth.role() = 'authenticated');
+   create policy "admin can delete"  on messages for delete using (auth.role() = 'authenticated');
+
+   -- ────────────────────────────────────────────────────────────────
+   -- STORAGE
+   -- Create two buckets: "portfolio-images" (public) and
+   -- "portfolio-documents" (public). Restrict uploads to authenticated
+   -- users, allow public reads.
+   -- ────────────────────────────────────────────────────────────────
+   insert into storage.buckets (id, name, public)
+   values ('portfolio-images', 'portfolio-images', true),
+          ('portfolio-documents', 'portfolio-documents', true);
+
+   create policy "public read images" on storage.objects
+     for select using (bucket_id in ('portfolio-images','portfolio-documents'));
+   create policy "admin upload" on storage.objects
+     for insert to authenticated with check (bucket_id in ('portfolio-images','portfolio-documents'));
+   create policy "admin delete" on storage.objects
+     for delete to authenticated using (bucket_id in ('portfolio-images','portfolio-documents'));
+
+   ══════════════════════════════════════════════════════════════════════ */
+
+})();
+</script>
+</body>
+</html>
